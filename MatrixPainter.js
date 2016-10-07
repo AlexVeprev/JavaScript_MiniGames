@@ -4,7 +4,7 @@ function MatrixPainter(canvas, matrix, width, height) {
 	self = this;
 
 	function drawGrid() {
-		context.strokeStyle = "#000";    // Line color.
+		context.strokeStyle = "#777";    // Line color.
 		// Draw vertical lines.
 		for (var i = 0; i <= size.x; i++) {
 			context.beginPath();
@@ -24,7 +24,7 @@ function MatrixPainter(canvas, matrix, width, height) {
 
 	function drawActiveElements() {
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		context.fillStyle   = "#44AA22"; // Fill active cell color.
+		context.fillStyle   = "#F82"; // Fill active cell color.
 		for (var i = 0; i < size.x; i++) {
 			for (var j = 0; j < size.y; j++) {
 				if (self.matrix[i][j] == 1) {
