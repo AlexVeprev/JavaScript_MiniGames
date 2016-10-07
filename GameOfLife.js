@@ -32,7 +32,9 @@ function World(sizeX, sizeY, width, height) {
 }
 
 function createWorld() {
-	world = new World(20, 20, 800, 800);
+	var size = window.innerHeight < window.innerWidth - 300 ? window.innerHeight : window.innerWidth - 300;
+	var normalizedSize = Math.round(size * 0.9 / 10) * 10;
+	world = new World(20, 20, normalizedSize, normalizedSize);
 	world.draw();
 }
 
