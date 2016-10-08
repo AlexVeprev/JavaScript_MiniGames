@@ -67,23 +67,30 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
 
   self.gameOverCallback = null;
 
-  // Initiate world with zeros.
-  for (var i = 0; i < self.size.y; i++) {
-    var row = [];
-    for (var j = 0; j < self.size.x; j++) {
-      row.push(0);
-    }
-    self.generation.push(row);
-  }
-  
-  self.generation = randomGenration(0.1);
+  self.generation = null;
+  makeRandomGenration(0.5);
+
   var painter = new MatrixPainter(self.canvas, self.generation, width, height);
 
   self.draw = function() {
     painter.update(self.generation);
   }
 
-  function randomGenration(probability) {
+  function makeEmptyGeneration() {
+    var emptyGeneration = [];
+
+    for (var i = 0; i < self.size.y; i++) {
+      var row = [];
+      for (var j = 0; j < self.size.x; j++) {
+        row.push(0);
+      }
+      emptyGeneration.push(row);
+    }
+
+    self.generation = emptyGeneration;
+  }
+
+  function makeRandomGenration(probability) {
     var randomGeneration = [];
 
     for (var i = 0; i < self.size.y; i++) {
@@ -94,10 +101,10 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
       randomGeneration.push(row);
     }
 
-    return randomGeneration;
+    self.generation = randomGeneration;
   }
 
-  function newGeneration() {
+  function makeNewGeneration() {
     var newGeneration = [];
 
     for (var y = 0; y < self.size.y; y++) {
@@ -139,11 +146,16 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
       self.gameOverCallback();
     }
 
-    return newGeneration;
+    self.generation = newGeneration;
   }
 
   self.step = function() {
-    self.generation = newGeneration();
+    makeNewGeneration();
+    painter.update(self.generation);
+  }
+
+  self.reset = function() {
+    makeEmptyGeneration();
     painter.update(self.generation);
   }
 
