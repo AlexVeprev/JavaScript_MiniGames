@@ -37,14 +37,18 @@ function MatrixPainter(canvas, matrix, width, height) {
     }
   }
 
+  function draw() {
+    drawActiveElements();
+    drawGrid();
+  }
+
   self.getPositionFromCoord = function(x, y) {
     return {x: Math.floor(x / cell.width), y: Math.floor(y / cell.height)};
   }
   
   self.update = function(matrix) {
     self.matrix = matrix;
-    drawActiveElements();
-    drawGrid();
+    draw();
   }
 
   self = this;
@@ -64,6 +68,5 @@ function MatrixPainter(canvas, matrix, width, height) {
   canvas.width  = width;
   canvas.height = height;
 
-  drawActiveElements();
-  drawGrid();
+  draw();
 }
