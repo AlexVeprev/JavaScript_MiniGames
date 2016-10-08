@@ -11,7 +11,7 @@
 
         function startTimer() {
           if (game) {
-            var interval = 100;
+            var interval = 10;
             timer = setInterval(game.step, interval);
             return;
           }
@@ -29,7 +29,7 @@
           canvas = document.getElementById("canvas");
 
           if (chosenGame == "Game of life") {
-            game = startGameOfLife(canvas, 20, 20);
+            game = startGameOfLife(canvas, 30, 30);
             game.registerGameOverCallback(gameOver);
           }
         }
@@ -78,12 +78,21 @@
   <table id="content">
     <tr>
       <td id="controls">
-        <div>
-         <div onclick="step();" class="button">Step</div>
-         <div onclick="startTimer();" class="button">Start</div>
-         <div onclick="stopTimer();" class="button">Stop</div>
-         <div onclick="return false" class="button">Action</div>
-        </div>
+        <table id="general_controls">
+          <caption>General controls</caption>
+          <tr>
+            <td><div class="button" onclick="startTimer();" >Start</div></td>
+            <td><div class="button" onclick="stopTimer();"  >Pause</div></td>
+            <td><div class="button" onclick="reset();"  >Reset</div></td>
+          </tr>
+        </table>
+        <table id="game_of_life_controls">
+          <caption>Game of Life</caption>
+          <tr>
+            <td><div class="button" onclick="step();"       >Step</div></td>
+            <td><div class="button" onclick="return false"  >Clear</div></td>
+          </tr>
+        </table>
       </td>
       <td id="game_field">
         <canvas id="canvas" onclick="handleClick(event);" onselectstart="return false" onmousedown="return false"></canvas>
