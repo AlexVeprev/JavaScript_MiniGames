@@ -33,6 +33,7 @@
           if (chosenGame == "Game of life") {
             game = startGameOfLife(canvas, fieldSize, fieldSize);
             game.registerGameOverCallback(gameOver);
+            game.registerStatisticsCallback(GameOfLife_statistics);
           }
         }
 
@@ -51,6 +52,37 @@
         function GameOfLife_randomGeneration() {
           if (game) {
             game.random(0.5);
+          }
+        }
+
+        function GameOfLife_statistics(statistics) {
+          document.getElementById('lbl_gol_number_of_generations').innerHTML =
+          "Number of generations: " + statistics.numberOfGenerations;
+          document.getElementById('lbl_gol_initial_generation').innerHTML =
+          "Size of initial generation: " + statistics.initialGeneration;
+
+          if (statistics.finalGeneration != undefined) {
+            document.getElementById('lbl_gol_final_generation').innerHTML =
+            "Size of final generation: " + statistics.finalGeneration;
+
+            var result = statistics.finalGeneration > 0 ? "population became stable" : "population died out";
+            document.getElementById('lbl_gol_result').innerHTML =
+            "Result: " + result;
+
+            var vitality = Math.round(statistics.finalGeneration / statistics.initialGeneration * 10000) / 100;
+            document.getElementById('lbl_gol_population_vitality').innerHTML =
+            "Population vitality: " + vitality + " %";
+          }
+          else {
+            document.getElementById('lbl_gol_final_generation').innerHTML =
+            "Size of final generation: unknown";
+
+            var result = statistics.finalGeneration > 0 ? "population became stable" : "population died out";
+            document.getElementById('lbl_gol_result').innerHTML =
+            "Result: unknown";
+
+            document.getElementById('lbl_gol_population_vitality').innerHTML =
+            "Population vitality: unknown";
           }
         }
 
@@ -114,7 +146,7 @@
             <td><div class="button" onclick="reset();"      >Reset</div></td>
           </tr>
           <tr>
-            <td><div>Field size</div></td>
+            <td>Field size</td>
             <td colspan="2">
             <input type="range" min="5" max="200" step="1" value="20" id="field_size" oninput="updateFieldSize();"></td>
           </tr>
@@ -123,12 +155,29 @@
           <caption>Game of Life</caption>
           <tr>
             <td><div class="button" onclick="step();"       >Step</div></td>
-            <td><div class="button" onclick="GameOfLife_randomGeneration();"       >Random generation</div></td>
+            <td><div class="button" onclick="GameOfLife_randomGeneration();"       >Populate</div></td>
           </tr>
           <tr>
-            <td><div>Speed</div></td>
-            <td colspan="2">
-            <input type="range" min="1" max="200" step="1" value="100" id="timer_interval" oninput="updateTimerSpeed();"></td>
+            <td>Speed</td>
+            <td><input type="range" min="1" max="200" step="1" value="100" id="timer_interval" oninput="updateTimerSpeed();"></td>
+          </tr>
+          <tr>
+            <td colspan="2">STATISTICS</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="statistics" id="lbl_gol_result">Result: unknown</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="statistics" id="lbl_gol_population_vitality">Population vitality: unknown</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="statistics" id="lbl_gol_number_of_generations">Number of generations: unknown</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="statistics" id="lbl_gol_initial_generation">Size of initial generation: unknown</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="statistics" id="lbl_gol_final_generation">Size of final generation: unknown</td>
           </tr>
         </table>
       </td>

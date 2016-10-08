@@ -65,7 +65,11 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
   self.size.x = sizeX
   self.size.y = sizeY
 
+  self.counter = new Object();
+  resetCounters();
+
   self.gameOverCallback = null;
+  self.statisticsCallback = null;
 
   self.generation = null;
   makeEmptyGeneration();
@@ -74,6 +78,22 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
 
   self.draw = function() {
     painter.update(self.generation);
+  }
+
+  function resetCounters() {
+    self.counter.numberOfGenerations = undefined;
+    self.counter.initialGeneration = undefined;
+    self.counter.finalGeneration = undefined;
+  }
+
+  function countGeneration(generation) {
+    var counter = 0;
+    for (var i = 0; i < generation.length; i++) {
+      for (var j = 0; j < generation[i].length; j++) {
+        counter += generation[i][j];
+      }
+    }
+    return counter;
   }
 
   function makeEmptyGeneration() {
@@ -106,6 +126,13 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
 
   function makeNewGeneration() {
     var newGeneration = [];
+
+    if (self.counter.numberOfGenerations == undefined) {
+      self.counter.numberOfGenerations = 0;
+      self.counter.initialGeneration = countGeneration(self.generation);
+      self.previousGeneration = undefined;
+    }
+    self.counter.numberOfGenerations++;
 
     for (var y = 0; y < self.size.y; y++) {
       var row = [];
@@ -142,10 +169,30 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
       newGeneration.push(row);
     }
 
-    if (areMatrixesEqual(newGeneration, self.generation) && self.gameOverCallback) {
-      self.gameOverCallback();
+    if (self.statisticsCallback) {
+      self.statisticsCallback(self.counter);
     }
 
+    if (areMatrixesEqual(newGeneration, self.generation) ||
+        (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration))) {
+      if (self.gameOverCallback) {
+        self.gameOverCallback();
+      }
+
+      if (self.statisticsCallback) {
+        if (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration)) {
+          self.counter.numberOfGenerations++;
+        }
+
+        self.counter.finalGeneration = countGeneration(newGeneration);
+
+        self.statisticsCallback(self.counter);
+      }
+
+      resetCounters();
+    }
+
+    self.previousGeneration = self.generation;
     self.generation = newGeneration;
   }
 
@@ -172,6 +219,10 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
 
   self.registerGameOverCallback = function(gameOverFunction) {
     self.gameOverCallback = gameOverFunction;
+  }
+
+  self.registerStatisticsCallback = function(statisticsFunction) {
+    self.statisticsCallback = statisticsFunction;
   }
 }
 
