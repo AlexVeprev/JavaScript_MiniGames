@@ -6,14 +6,50 @@
 
       <script type="text/javascript" src="MatrixPainter.js"></script>
       <script type="text/javascript" src="GameOfLife.js"></script>
+
+      <script type="text/javascript">
+        var timer = null;
+        var game = null;
+
+        function startTimer() {
+          if (game) {
+            var interval = 100;
+            timer = setInterval(game.step, interval);
+            return;
+          }
+          alert("Nothing to start.")
+        }
+
+        function stopTimer() {
+          if (timer) {
+            clearInterval(timer);
+          }
+        }
+
+        function chooseGame() {
+          var chosenGame = "Game of life";
+
+          if (chosenGame == "Game of life") {
+            game = startGameOfLife();
+          }
+        }
+
+        function step() {
+          if (game) {
+            game.step();
+          }
+        }
+      </script>
   </head>
 
-<body onload=createWorld();>
+<body onload=chooseGame();>
   <table id="content">
     <tr>
       <td id="controls">
         <div>
-         <button onclick="world.step();">Step</button>
+         <button onclick="step();">Step</button>
+         <button onclick="startTimer();">Start</button>
+         <button onclick="stopTimer();">Stop</button>
         </div>
       </td>
       <td id="game_field">

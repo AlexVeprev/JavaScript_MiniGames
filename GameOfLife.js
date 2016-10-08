@@ -128,14 +128,14 @@ function World(sizeX, sizeY, width, height) {
     self.generation[pos.y][pos.x] = Math.abs(self.generation[pos.y][pos.x] - 1);
     painter.update(self.generation);
   }
-
 }
 
-function createWorld() {
+function startGameOfLife() {
   var size = window.innerHeight < window.innerWidth - 300 ? window.innerHeight : window.innerWidth - 300;
   var normalizedSize = Math.round(size * 0.9 / 10) * 10;
   world = new World(20, 20, normalizedSize, normalizedSize);
   world.draw();
+  return world;
 }
 
 function relMouseCoords(event) {
