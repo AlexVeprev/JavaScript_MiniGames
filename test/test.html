@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <!-- Mocha -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.js"></script>
+  <script>
+    mocha.setup('bdd');
+  </script>
+
+  <!-- Chai -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/2.0.0/chai.js"></script>
+  <script>var assert = chai.assert; var expect = chai.expect;</script>
+</head>
+
+<body>
+  <script src="../GameOfLife.js"></script>
+  <script src="test.js"></script>
+
+  <div id="mocha"></div>
+  <script>
+    mocha.run();
+  </script>
+</body>
+
+</html>
