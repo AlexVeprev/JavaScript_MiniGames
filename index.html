@@ -11,7 +11,7 @@
 
         function startTimer() {
           if (game) {
-            var interval = 10;
+            var interval = 2000 / parseInt(document.getElementById('timer_interval').value);
             timer = setInterval(game.step, interval);
             return;
           }
@@ -21,15 +21,17 @@
         function stopTimer() {
           if (timer) {
             clearInterval(timer);
+            timer = null;
           }
         }
 
         function chooseGame() {
           var chosenGame = "Game of life";
+          var fieldSize = parseInt(document.getElementById('field_size').value);
           canvas = document.getElementById("canvas");
 
           if (chosenGame == "Game of life") {
-            game = startGameOfLife(canvas, 30, 30);
+            game = startGameOfLife(canvas, fieldSize, fieldSize);
             game.registerGameOverCallback(gameOver);
           }
         }
@@ -80,6 +82,20 @@
           var coords = canvas.relMouseCoords(event);
           game.handleClick(coords.x, coords.y);
         }
+
+        function updateFieldSize() {
+          var label = document.getElementById('lbl_field_size');
+          var range = document.getElementById('field_size');
+          reset();
+          chooseGame();
+        }
+
+        function updateTimerSpeed() {
+          if (timer) {
+            stopTimer();
+            startTimer();
+          }
+        }
       </script>
 
       <script type="text/javascript" src="MatrixPainter.js"></script>
@@ -97,12 +113,22 @@
             <td><div class="button" onclick="stopTimer();"  >Pause</div></td>
             <td><div class="button" onclick="reset();"      >Reset</div></td>
           </tr>
+          <tr>
+            <td><div>Field size</div></td>
+            <td colspan="2">
+            <input type="range" min="5" max="200" step="1" value="20" id="field_size" oninput="updateFieldSize();"></td>
+          </tr>
         </table>
         <table id="game_of_life_controls">
           <caption>Game of Life</caption>
           <tr>
             <td><div class="button" onclick="step();"       >Step</div></td>
             <td><div class="button" onclick="GameOfLife_randomGeneration();"       >Random generation</div></td>
+          </tr>
+          <tr>
+            <td><div>Speed</div></td>
+            <td colspan="2">
+            <input type="range" min="1" max="200" step="1" value="100" id="timer_interval" oninput="updateTimerSpeed();"></td>
           </tr>
         </table>
       </td>
