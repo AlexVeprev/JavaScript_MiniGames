@@ -19,4 +19,11 @@ describe("GameOfLife", function() {
     assert.equal(normalize(-5, 10), 5);
     assert.equal(normalize(8, 10, 9), 9);
   });
+
+  it("Single normalization in negative ranges.", function() {
+    assert.equal(normalize(-1, -1, -5), -5);
+    assert.equal(normalize(0, -1, -5), -4);
+    assert.equal(normalize(-6, -4, -5), -5);
+    assert.equal(normalize(-15, -1, -10), -6);
+  });
 });
