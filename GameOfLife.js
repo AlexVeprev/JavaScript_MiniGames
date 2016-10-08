@@ -37,15 +37,18 @@ function normalize(n, max, min) {
  * @param {int} width  Width of life field in pixels.
  * @param {int} height Height of life field in pixels.
  */
-function World(sizeX, sizeY, width, height) {
+function GameOfLife(canvas, sizeX, sizeY, width, height) {
   var self = this;
   self.generation = [];
+  self.canvas = canvas;
   self.width = width;
   self.height = height;
 
   self.size = new Object();
   self.size.x = sizeX
   self.size.y = sizeY
+
+  self.gameOverCallback = null;
 
   // Initiate world with zeros.
   for (var i = 0; i < self.size.y; i++) {
@@ -57,7 +60,7 @@ function World(sizeX, sizeY, width, height) {
   }
   
   self.generation = randomGenration(0.1);
-  var painter = new MatrixPainter(document.getElementById("canvas"), self.generation, width, height);
+  var painter = new MatrixPainter(self.canvas, self.generation, width, height);
 
   self.draw = function() {
     painter.update(self.generation);
@@ -128,38 +131,16 @@ function World(sizeX, sizeY, width, height) {
     self.generation[pos.y][pos.x] = Math.abs(self.generation[pos.y][pos.x] - 1);
     painter.update(self.generation);
   }
+
+  self.registerGameOverCallback = function(gameOverFunction) {
+    self.gameOverCallback = gameOverFunction;
+  }
 }
 
-function startGameOfLife() {
+function startGameOfLife(canvas, sizeX, sizeY) {
   var size = window.innerHeight < window.innerWidth - 300 ? window.innerHeight : window.innerWidth - 300;
   var normalizedSize = Math.round(size * 0.9 / 10) * 10;
-  world = new World(20, 20, normalizedSize, normalizedSize);
-  world.draw();
-  return world;
-}
-
-function relMouseCoords(event) {
-  var totalOffsetX = 0;
-  var totalOffsetY = 0;
-  var canvasX = 0;
-  var canvasY = 0;
-  var currentElement = this;
-
-  do {
-    totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
-    totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
-  }
-  while (currentElement = currentElement.offsetParent)
-
-  canvasX = event.pageX - totalOffsetX;
-  canvasY = event.pageY - totalOffsetY;
-
-  return {x:canvasX, y:canvasY}
-}
-HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;
-
-function handleClick(event) {
-  var canvas = document.getElementById("canvas");
-  var coords = canvas.relMouseCoords(event);
-  world.handleClick(coords.x, coords.y);
+  gameOfLife = new GameOfLife(canvas, sizeX, sizeY, normalizedSize, normalizedSize);
+  gameOfLife.draw();
+  return gameOfLife;
 }
