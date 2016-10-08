@@ -12,10 +12,12 @@
   <table id="content">
     <tr>
       <td id="controls">
-        Different controls should be here.
+        <div>
+         <button onclick="world.step();">Step</button>
+        </div>
       </td>
       <td id="game_field">
-        <canvas id="canvas" onclick="world.step();" onselectstart="return false" onmousedown="return false"></canvas>
+        <canvas id="canvas" onclick="handleClick(event);" onselectstart="return false" onmousedown="return false"></canvas>
       </td>
     </tr>
   </table>
