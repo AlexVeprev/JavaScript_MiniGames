@@ -4,29 +4,48 @@ var world = null;
 
 function World(sizeX, sizeY, width, height) {
 	var self = this;
-	self.matrix = [];
+	self.generation = [];
 	self.width = width;
 	self.height = height;
 
+	self.size = new Object();
+	self.size.x = sizeX
+	self.size.y = sizeY
+
 	// Initiate world with zeros.
-	for (var i = 0; i < sizeX; i++) {
+	for (var i = 0; i < self.size.y; i++) {
 		var row = [];
-		for (var j = 0; j < sizeY; j++) {
+		for (var j = 0; j < self.size.x; j++) {
 			row.push(0);
 		}
-		self.matrix.push(row);
+		self.generation.push(row);
 	}
 	
-	var painter = new MatrixPainter(document.getElementById("canvas"), self.matrix, width, height);
+	self.generation = randomGenration(0.1);
+	var painter = new MatrixPainter(document.getElementById("canvas"), self.generation, width, height);
 
 	self.draw = function() {
-		painter.update(self.matrix);
+		painter.update(self.generation);
+	}
+
+	function randomGenration(probability) {
+		var randomGeneration = [];
+
+		for (var i = 0; i < self.size.y; i++) {
+			var row = [];
+			for (var j = 0; j < self.size.x; j++) {
+				row.push(Math.floor(Math.random() + probability));
+			}
+			randomGeneration.push(row);
+		}
+
+		return randomGeneration;
 	}
 
 	self.handleClick = function(x, y) {
 		var pos = painter.getPositionFromCoord(x, y);
-		self.matrix[pos.y][pos.x] = Math.abs(self.matrix[pos.y][pos.x] - 1);
-		painter.update(self.matrix);
+		self.generation[pos.y][pos.x] = Math.abs(self.generation[pos.y][pos.x] - 1);
+		painter.update(self.generation);
 	}
 
 }
