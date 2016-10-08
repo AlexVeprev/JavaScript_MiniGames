@@ -30,6 +30,23 @@ function normalize(n, max, min) {
 }
 
 /**
+ * Compares two matrixes by going through elements one-by-one.
+ * @param matrix1 {[][]} Matrix 1.
+ * @param matrix2 {[][]} Matrix 2.
+ * @return {bool} Result of comparison.
+ */
+function areMatrixesEqual(matrix1, matrix2) {
+  for (var i = 0; i < matrix1.length; i++) {
+    for (var j = 0; j < matrix1[i].length; j++) {
+      if (matrix1[i][j] !== matrix2[i][j]) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+/**
  * A world where game of life acts.
  * @constructor
  * @param {int} sizeX  Number of elements on a horizontal.
@@ -118,6 +135,10 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
       newGeneration.push(row);
     }
 
+    if (areMatrixesEqual(newGeneration, self.generation) && self.gameOverCallback) {
+      self.gameOverCallback();
+    }
+
     return newGeneration;
   }
 
@@ -140,7 +161,7 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
 function startGameOfLife(canvas, sizeX, sizeY) {
   var size = window.innerHeight < window.innerWidth - 300 ? window.innerHeight : window.innerWidth - 300;
   var normalizedSize = Math.round(size * 0.9 / 10) * 10;
-  gameOfLife = new GameOfLife(canvas, sizeX, sizeY, normalizedSize, normalizedSize);
+  var gameOfLife = new GameOfLife(canvas, sizeX, sizeY, normalizedSize, normalizedSize);
   gameOfLife.draw();
   return gameOfLife;
 }

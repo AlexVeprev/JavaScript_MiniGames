@@ -26,4 +26,33 @@ describe("GameOfLife", function() {
     assert.equal(normalize(-6, -4, -5), -5);
     assert.equal(normalize(-15, -1, -10), -6);
   });
+
+
+  it("Matrixes 1x1 comparison.", function() {
+    var array1x1_1 = [[1]];
+    var array1x1_2 = [[2]];
+
+    assert(areMatrixesEqual(array1x1_1, array1x1_1), array1x1_1 + " equals to " + array1x1_1);
+    assert(!areMatrixesEqual(array1x1_1, array1x1_2), array1x1_1 + " does not equal to " + array1x1_2);
+  });
+
+  it("Matrixes 3x3 comparison.", function() {
+    var array3x3_1 = [[1, 1, 1], [1, 1, 1], [1, 1, 1]];
+    var array3x3_2 = [[1, 1, 1], [1, 1, 1], [1, 1, 0]];
+    var array3x3_3 = [[0, 1, 1], [1, 1, 1], [1, 1, 1]];
+
+    assert(areMatrixesEqual(array3x3_1, array3x3_1), array3x3_1 + " equals to " + array3x3_1);
+    assert(!areMatrixesEqual(array3x3_1, array3x3_2), array3x3_1 + " does not equal to " + array3x3_2);
+    assert(!areMatrixesEqual(array3x3_2, array3x3_3), array3x3_2 + " does not equal to " + array3x3_3);
+  });
+
+  it("Matrixes 5x3 comparison.", function() {
+    var array5x3_1 = [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1]];
+    var array5x3_2 = [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 0]];
+    var array5x3_3 = [[0, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1]];
+
+    assert(areMatrixesEqual(array5x3_1, array5x3_1), array5x3_1 + " equals to " + array5x3_1);
+    assert(!areMatrixesEqual(array5x3_1, array5x3_2), array5x3_1 + " does not equal to " + array5x3_2);
+    assert(!areMatrixesEqual(array5x3_2, array5x3_3), array5x3_2 + " does not equal to " + array5x3_3);
+  });
 });
