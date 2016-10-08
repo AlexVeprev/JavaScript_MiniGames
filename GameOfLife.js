@@ -77,6 +77,53 @@ function World(sizeX, sizeY, width, height) {
     return randomGeneration;
   }
 
+  function newGeneration() {
+    var newGeneration = [];
+
+    for (var y = 0; y < self.size.y; y++) {
+      var row = [];
+      for (var x = 0; x < self.size.x; x++) {
+        var numOfActiveNeighbors = 0;
+
+        // Left & Right
+        numOfActiveNeighbors += self.generation[y][normalize(x - 1, self.size.x)];
+        numOfActiveNeighbors += self.generation[y][normalize(x + 1, self.size.x)];
+
+        // Up & Down
+        numOfActiveNeighbors += self.generation[normalize(y - 1, self.size.y)][x];
+        numOfActiveNeighbors += self.generation[normalize(y + 1, self.size.y)][x];
+
+        // Up-Left
+        numOfActiveNeighbors += self.generation[normalize(y - 1, self.size.y)][normalize(x - 1, self.size.x)];
+        // Up-Right
+        numOfActiveNeighbors += self.generation[normalize(y - 1, self.size.y)][normalize(x + 1, self.size.x)];
+        // Down-Right
+        numOfActiveNeighbors += self.generation[normalize(y + 1, self.size.y)][normalize(x + 1, self.size.x)];
+        // Down-Left
+        numOfActiveNeighbors += self.generation[normalize(y + 1, self.size.y)][normalize(x - 1, self.size.x)];
+
+        var currentCell = self.generation[y][x];
+        if (numOfActiveNeighbors == 3) {
+          currentCell = 1;
+        }
+        else if (numOfActiveNeighbors > 3 || numOfActiveNeighbors < 2) {
+          currentCell = 0;
+        }
+
+        console.log("[" + x + ":" + y + "]: " + currentCell + "(neighb: " + numOfActiveNeighbors + ")")
+        row.push(currentCell);
+      }
+      newGeneration.push(row);
+    }
+
+    return newGeneration;
+  }
+
+  self.step = function() {
+    self.generation = newGeneration();
+    painter.update(self.generation);
+  }
+
   self.handleClick = function(x, y) {
     var pos = painter.getPositionFromCoord(x, y);
     self.generation[pos.y][pos.x] = Math.abs(self.generation[pos.y][pos.x] - 1);

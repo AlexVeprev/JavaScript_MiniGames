@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>AV: JavaScript MiniGames</title>
-		<link rel="stylesheet" type="text/css" href="style.css">
+  <head>
+    <title>AV: JavaScript MiniGames</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 
-    	<script type="text/javascript" src="MatrixPainter.js"></script>
-    	<script type="text/javascript" src="GameOfLife.js"></script>
-	</head>
+      <script type="text/javascript" src="MatrixPainter.js"></script>
+      <script type="text/javascript" src="GameOfLife.js"></script>
+  </head>
 
 <body onload=createWorld();>
-	<table id="content">
-		<tr>
-			<td id="controls">
-				Different controls should be here.
-			</td>
-			<td id="game_field">
-				<canvas id="canvas" onclick=handleClick(event);></canvas>
-			</td>
-		</tr>
-	</table>
+  <table id="content">
+    <tr>
+      <td id="controls">
+        Different controls should be here.
+      </td>
+      <td id="game_field">
+        <canvas id="canvas" onclick=world.step();></canvas>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
