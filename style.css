@@ -7,17 +7,18 @@ body {
   padding: 10px;
   text-align: center;
   background-color: #403026;
+  color: #ffe3d1;
   width: 300px;
   height: 100%
 }
 
 #controls caption {
-  color: #ffe3d1;
   text-align: left;
 }
 
 #controls table {
   border-collapse: collapse;
+  margin-bottom: 20px;
 }
 
 #controls td {
