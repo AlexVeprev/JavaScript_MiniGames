@@ -40,6 +40,12 @@
           }
         }
 
+        function reset() {
+          if (game) {
+            game.reset();
+          }
+        }
+
         function gameOver() {
           stopTimer();
         }
@@ -83,7 +89,7 @@
           <tr>
             <td><div class="button" onclick="startTimer();" >Start</div></td>
             <td><div class="button" onclick="stopTimer();"  >Pause</div></td>
-            <td><div class="button" onclick="reset();"  >Reset</div></td>
+            <td><div class="button" onclick="reset();"      >Reset</div></td>
           </tr>
         </table>
         <table id="game_of_life_controls">
