@@ -110,7 +110,6 @@ function World(sizeX, sizeY, width, height) {
           currentCell = 0;
         }
 
-        console.log("[" + x + ":" + y + "]: " + currentCell + "(neighb: " + numOfActiveNeighbors + ")")
         row.push(currentCell);
       }
       newGeneration.push(row);
