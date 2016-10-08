@@ -46,6 +46,12 @@
           }
         }
 
+        function GameOfLife_randomGeneration() {
+          if (game) {
+            game.random(0.5);
+          }
+        }
+
         function gameOver() {
           stopTimer();
         }
@@ -96,6 +102,7 @@
           <caption>Game of Life</caption>
           <tr>
             <td><div class="button" onclick="step();"       >Step</div></td>
+            <td><div class="button" onclick="GameOfLife_randomGeneration();"       >Random generation</div></td>
           </tr>
         </table>
       </td>

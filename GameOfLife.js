@@ -68,7 +68,7 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
   self.gameOverCallback = null;
 
   self.generation = null;
-  makeRandomGenration(0.5);
+  makeRandomGeneration(0.5);
 
   var painter = new MatrixPainter(self.canvas, self.generation, width, height);
 
@@ -90,7 +90,7 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
     self.generation = emptyGeneration;
   }
 
-  function makeRandomGenration(probability) {
+  function makeRandomGeneration(probability) {
     var randomGeneration = [];
 
     for (var i = 0; i < self.size.y; i++) {
@@ -156,6 +156,11 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
 
   self.reset = function() {
     makeEmptyGeneration();
+    painter.update(self.generation);
+  }
+
+  self.random = function(probability) {
+    makeRandomGeneration(probability);
     painter.update(self.generation);
   }
 
