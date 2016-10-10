@@ -36,6 +36,9 @@
             game.registerGameOverCallback(gameOver);
             game.registerStatisticsCallback(GameOfLife_statistics);
           }
+		  else if (chosenGame == "Snake") {
+            game = startSnake(canvas, fieldSize, fieldSize);
+          }
         }
 
         function step() {
@@ -134,6 +137,7 @@
 
       <script type="text/javascript" src="MatrixPainter.js"></script>
       <script type="text/javascript" src="GameOfLife.js"></script>
+      <script type="text/javascript" src="Snake.js"></script>
   </head>
 
 <body onload=chooseGame();>

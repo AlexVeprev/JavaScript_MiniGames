@@ -24,10 +24,17 @@ function MatrixPainter(canvas, matrix, width, height) {
 
   function drawActiveElements() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle   = "#403026"; // Fill active cell color.
     for (var i = 0; i < size.x; i++) {
       for (var j = 0; j < size.y; j++) {
-        if (self.matrix[i][j] == 1) {
+        if (self.matrix[i][j] >= 1) {
+		  context.fillStyle   = "#403026"; // Fill positive cell.
+          context.fillRect(j * cell.width,
+                   i * cell.height,
+                   cell.width,
+                   cell.height);
+        }
+        else if (self.matrix[i][j] <= -1) {
+		  context.fillStyle   = "red"; // Fill negative cell.
           context.fillRect(j * cell.width,
                    i * cell.height,
                    cell.width,
