@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 
       <script type="text/javascript">
+        "use strict";
         var timer = null;
         var game = null;
         var canvas = null;
@@ -15,7 +16,7 @@
             timer = setInterval(game.step, interval);
             return;
           }
-          alert("Nothing to start.")
+          alert("Nothing to start.");
         }
 
         function stopTimer() {
@@ -60,12 +61,13 @@
           "Number of generations: " + statistics.numberOfGenerations;
           document.getElementById('lbl_gol_initial_generation').innerHTML =
           "Size of initial generation: " + statistics.initialGeneration;
+          var result = null;
 
-          if (statistics.finalGeneration != undefined) {
+          if (statistics.finalGeneration !== undefined) {
             document.getElementById('lbl_gol_final_generation').innerHTML =
             "Size of final generation: " + statistics.finalGeneration;
 
-            var result = statistics.finalGeneration > 0 ? "population became stable" : "population died out";
+            result = statistics.finalGeneration > 0 ? "population became stable" : "population died out";
             document.getElementById('lbl_gol_result').innerHTML =
             "Result: " + result;
 
@@ -77,7 +79,7 @@
             document.getElementById('lbl_gol_final_generation').innerHTML =
             "Size of final generation: unknown";
 
-            var result = statistics.finalGeneration > 0 ? "population became stable" : "population died out";
+            result = statistics.finalGeneration > 0 ? "population became stable" : "population died out";
             document.getElementById('lbl_gol_result').innerHTML =
             "Result: unknown";
 

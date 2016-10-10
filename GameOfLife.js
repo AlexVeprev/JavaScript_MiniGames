@@ -1,6 +1,4 @@
-"use strict"
-
-var world = null;
+"use strict";
 
 /**
  * Keeps n in a closed range min <= n < max (normilize).
@@ -10,7 +8,7 @@ var world = null;
  * @return {int} Normilized n.
  */
 function normalize(n, max, min) {
-  if (min == undefined) {
+  if (min === undefined) {
     min = 0;
   }
 
@@ -61,11 +59,11 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
   self.width = width;
   self.height = height;
 
-  self.size = new Object();
-  self.size.x = sizeX
-  self.size.y = sizeY
+  self.size = {};
+  self.size.x = sizeX;
+  self.size.y = sizeY;
 
-  self.counter = new Object();
+  self.counter = {};
   resetCounters();
 
   self.gameOverCallback = null;
@@ -78,7 +76,7 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
 
   self.draw = function() {
     painter.update(self.generation);
-  }
+  };
 
   function resetCounters() {
     self.counter.numberOfGenerations = undefined;
@@ -127,11 +125,12 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
   function makeNewGeneration() {
     var newGeneration = [];
 
-    if (self.counter.numberOfGenerations == undefined) {
+    if (self.counter.numberOfGenerations === undefined) {
       self.counter.numberOfGenerations = 0;
       self.counter.initialGeneration = countGeneration(self.generation);
       self.previousGeneration = undefined;
     }
+
     self.counter.numberOfGenerations++;
 
     for (var y = 0; y < self.size.y; y++) {
@@ -199,31 +198,31 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
   self.step = function() {
     makeNewGeneration();
     painter.update(self.generation);
-  }
+  };
 
   self.reset = function() {
     makeEmptyGeneration();
     painter.update(self.generation);
-  }
+  };
 
   self.random = function(probability) {
     makeRandomGeneration(probability);
     painter.update(self.generation);
-  }
+  };
 
   self.handleClick = function(x, y) {
     var pos = painter.getPositionFromCoord(x, y);
     self.generation[pos.y][pos.x] = Math.abs(self.generation[pos.y][pos.x] - 1);
     painter.update(self.generation);
-  }
+  };
 
   self.registerGameOverCallback = function(gameOverFunction) {
     self.gameOverCallback = gameOverFunction;
-  }
+  };
 
   self.registerStatisticsCallback = function(statisticsFunction) {
     self.statisticsCallback = statisticsFunction;
-  }
+  };
 }
 
 function startGameOfLife(canvas, sizeX, sizeY) {

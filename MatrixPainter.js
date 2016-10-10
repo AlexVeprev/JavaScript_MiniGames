@@ -1,7 +1,7 @@
-"use strict"
+"use strict";
 
 function MatrixPainter(canvas, matrix, width, height) {
-  self = this;
+  var self = this;
 
   function drawGrid() {
     context.strokeStyle = "#777";    // Line color.
@@ -14,7 +14,7 @@ function MatrixPainter(canvas, matrix, width, height) {
     }
 
     // Draw horizontal lines.
-    for (var i = 0; i <= size.y; i++) {
+    for (i = 0; i <= size.y; i++) {
       context.beginPath();
       context.moveTo(0, i * cell.height);
       context.lineTo(width, i * cell.height);
@@ -44,23 +44,23 @@ function MatrixPainter(canvas, matrix, width, height) {
 
   self.getPositionFromCoord = function(x, y) {
     return {x: Math.floor(x / cell.width), y: Math.floor(y / cell.height)};
-  }
+  };
   
   self.update = function(matrix) {
     self.matrix = matrix;
     draw();
-  }
+  };
 
   self = this;
   self.width = width;
   self.height = height;
   self.matrix = matrix;
 
-  var size = new Object();
+  var size = {};
   size.x = matrix[0].length;
   size.y = matrix.length;
 
-  var cell = new Object();
+  var cell = {};
   cell.width = width / size.x;
   cell.height = height / size.y;
 
