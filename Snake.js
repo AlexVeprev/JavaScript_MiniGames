@@ -32,6 +32,8 @@ function Snake(canvas, sizeX, sizeY, width, height) {
 
   var painter = new MatrixPainter(canvas, field, self.width.pixel, self.height.pixel);
 
+  self.gameOverCallback = null;
+
   self.draw = function() {
     painter.update(field);
   };
@@ -94,8 +96,7 @@ function Snake(canvas, sizeX, sizeY, width, height) {
                       y: head.y + head.direction.y};
 
     if (!checkNewHeadPos(newHeadPos)) {
-      //self.gameOverCallback();
-      alert("Game over");
+      self.gameOverCallback();
       return;
     }
 
@@ -109,20 +110,20 @@ function Snake(canvas, sizeX, sizeY, width, height) {
     var y = head.y;
     var direction;
     while (true) {
-      if (y - 1 >= 0 && field[y - 1][x] == field[y][x] - 1) {
+      if (y - 1 >= 0 && field[y - 1][x] > 0 && field[y - 1][x] == field[y][x] - 1) {
         direction = Direction.UP;
       }
-      else if (y + 1 < self.height.num && field[y + 1][x] == field[y][x] - 1) {
+      else if (y + 1 < self.height.num && field[y + 1][x] > 0 && field[y + 1][x] == field[y][x] - 1) {
         direction = Direction.DOWN;
       }
-      else if (x + 1 < self.width.num && field[y][x + 1] == field[y][x] - 1) {
+      else if (x + 1 < self.width.num && field[y][x + 1] > 0 && field[y][x + 1] == field[y][x] - 1) {
         direction = Direction.RIGHT;
       }
-      else if (x - 1 >= 0 && field[y][x - 1] == field[y][x] - 1) {
+      else if (x - 1 >= 0 && field[y][x - 1] > 0 && field[y][x - 1] == field[y][x] - 1) {
         direction = Direction.LEFT;
       }
       else {
-        field[y - direction.y][x - direction.x] += food;
+        field[y][x] = food;
         break;
       }
 
@@ -131,6 +132,9 @@ function Snake(canvas, sizeX, sizeY, width, height) {
       x = x + direction.x;
     }
 
+    if (food) {
+      placeFood();
+    }
     self.draw();
   };
 
@@ -141,6 +145,10 @@ function Snake(canvas, sizeX, sizeY, width, height) {
         console.log(head.direction);
       }
     }
+  };
+
+  self.registerGameOverCallback = function(callback) {
+    self.gameOverCallback = callback;
   };
 
 }

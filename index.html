@@ -38,6 +38,7 @@
           }
 		  else if (chosenGame == "Snake") {
             game = startSnake(canvas, fieldSize, fieldSize);
+            game.registerGameOverCallback(gameOver);
           }
         }
 
