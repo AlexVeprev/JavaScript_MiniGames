@@ -14,10 +14,10 @@ function replaceBiggerNeighbor(matrix) {
 function Snake(canvas, sizeX, sizeY, width, height) {
   var self = this;
 
-  var Direction = Object.freeze({UP:    {x:  0,  y: -1},
-                                 DOWN:  {x:  0,  y:  1},
-                                 RIGHT: {x:  1,  y:  0},
-                                 LEFT:  {x: -1,  y:  0}});
+  var Direction = Object.freeze({UP:    {x:  0,  y: -1, code: 38},
+                                 DOWN:  {x:  0,  y:  1, code: 40},
+                                 RIGHT: {x:  1,  y:  0, code: 39},
+                                 LEFT:  {x: -1,  y:  0, code: 37}});
 
   self.width = {};
   self.width.pixel = width;
@@ -132,7 +132,16 @@ function Snake(canvas, sizeX, sizeY, width, height) {
     }
 
     self.draw();
-  }
+  };
+
+  self.handleKeyDown = function(keyCode) {
+    for (var key in Direction) {
+      if (Direction[key].code == keyCode && (Direction[key].x != -head.direction.x || Direction[key].y != -head.direction.y)) {
+        head.direction = Direction[key];
+        console.log(head.direction);
+      }
+    }
+  };
 
 }
 

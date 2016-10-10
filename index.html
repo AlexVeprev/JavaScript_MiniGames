@@ -115,9 +115,14 @@
         }
         HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;
 
-        function handleClick(event) {
-          var coords = canvas.relMouseCoords(event);
+        function handleClick(e) {
+          var coords = canvas.relMouseCoords(e);
           game.handleClick(coords.x, coords.y);
+        }
+
+        function handleKeyDown(e) {
+          e = e || event;
+          game.handleKeyDown(e.keyCode);
         }
 
         function updateFieldSize() {
@@ -140,7 +145,7 @@
       <script type="text/javascript" src="Snake.js"></script>
   </head>
 
-<body onload=chooseGame();>
+<body onload=chooseGame(); onkeydown=handleKeyDown();>
   <table id="content">
     <tr>
       <td id="controls">
