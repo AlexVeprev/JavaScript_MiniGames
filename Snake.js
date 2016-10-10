@@ -32,7 +32,7 @@ function Snake(canvas, sizeX, sizeY, width, height) {
 
   var painter = new MatrixPainter(canvas, field, self.width.pixel, self.height.pixel);
 
-  self.gameOverCallback = null;
+  self.callback = {};
 
   self.draw = function() {
     painter.update(field);
@@ -96,7 +96,7 @@ function Snake(canvas, sizeX, sizeY, width, height) {
                       y: head.y + head.direction.y};
 
     if (!checkNewHeadPos(newHeadPos)) {
-      self.gameOverCallback();
+      self.callback.gameover();
       return;
     }
 
@@ -142,13 +142,12 @@ function Snake(canvas, sizeX, sizeY, width, height) {
     for (var key in Direction) {
       if (Direction[key].code == keyCode && (Direction[key].x != -head.direction.x || Direction[key].y != -head.direction.y)) {
         head.direction = Direction[key];
-        console.log(head.direction);
       }
     }
   };
 
-  self.registerGameOverCallback = function(callback) {
-    self.gameOverCallback = callback;
+  self.registerCallback = function(type, callback) {
+    self.callback[type] = callback;
   };
 
 }

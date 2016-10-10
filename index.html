@@ -27,18 +27,18 @@
         }
 
         function chooseGame() {
-          var chosenGame = "Snake";
+          var chosenGame = "Game of life";
           var fieldSize = parseInt(document.getElementById('field_size').value);
           canvas = document.getElementById("canvas");
 
           if (chosenGame == "Game of life") {
             game = startGameOfLife(canvas, fieldSize, fieldSize);
-            game.registerGameOverCallback(gameOver);
-            game.registerStatisticsCallback(GameOfLife_statistics);
+            game.registerCallback("gameover", gameOver);
+            game.registerCallback("statistics", GameOfLife_statistics);
           }
 		  else if (chosenGame == "Snake") {
             game = startSnake(canvas, fieldSize, fieldSize);
-            game.registerGameOverCallback(gameOver);
+            game.registerCallback("gameover", gameOver);
           }
         }
 

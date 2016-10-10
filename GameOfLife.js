@@ -66,8 +66,7 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
   self.counter = {};
   resetCounters();
 
-  self.gameOverCallback = null;
-  self.statisticsCallback = null;
+  self.callback = {};
 
   self.generation = null;
   makeEmptyGeneration();
@@ -168,25 +167,22 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
       newGeneration.push(row);
     }
 
-    if (self.statisticsCallback) {
-      self.statisticsCallback(self.counter);
+    if (self.callback.statistics) {
+      self.callback.statistics(self.counter);
     }
 
     if (areMatrixesEqual(newGeneration, self.generation) ||
         (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration))) {
-      if (self.gameOverCallback) {
-        self.gameOverCallback();
+
+      self.callback.gameover();
+
+      if (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration)) {
+        self.counter.numberOfGenerations++;
       }
 
-      if (self.statisticsCallback) {
-        if (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration)) {
-          self.counter.numberOfGenerations++;
-        }
+      self.counter.finalGeneration = countGeneration(newGeneration);
 
-        self.counter.finalGeneration = countGeneration(newGeneration);
-
-        self.statisticsCallback(self.counter);
-      }
+      self.callback.statistics(self.counter);
 
       resetCounters();
     }
@@ -216,12 +212,8 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
     painter.update(self.generation);
   };
 
-  self.registerGameOverCallback = function(gameOverFunction) {
-    self.gameOverCallback = gameOverFunction;
-  };
-
-  self.registerStatisticsCallback = function(statisticsFunction) {
-    self.statisticsCallback = statisticsFunction;
+  self.registerCallback = function(type, callback) {
+    self.callback[type] = callback;
   };
 }
 
