@@ -146,6 +146,10 @@
           var normalizedSize = Math.round(size * 0.9 / 10) * 10;
           return {width: normalizedSize, height: normalizedSize};
         }
+        
+        window.onresize = function(e) {
+          game.resizeCanvas(getCanvasSize());
+        };
       </script>
 
       <script type="text/javascript" src="MatrixPainter.js"></script>

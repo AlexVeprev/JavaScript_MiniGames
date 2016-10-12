@@ -73,7 +73,13 @@ function GameOfLife(fieldSize, canvas, canvasSize) {
   };
 
   self.draw();
- 
+
+  self.resizeCanvas = function(newCanvasSize) {
+    canvasSize.width = newCanvasSize.width;
+    canvasSize.height = newCanvasSize.height;
+    self.draw();
+  };
+
   function resetCounters() {
     self.counter.numberOfGenerations = undefined;
     self.counter.initialGeneration = undefined;

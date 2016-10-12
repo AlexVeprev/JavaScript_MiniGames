@@ -43,6 +43,12 @@ function Snake(fieldSize, canvas, canvasSize) {
   };
   self.draw();
 
+  self.resizeCanvas = function(newCanvasSize) {
+    canvasSize.width = newCanvasSize.width;
+    canvasSize.height = newCanvasSize.height;
+    self.draw();
+  };
+
   function initiate() {
     initiateField();
     placeInitialSnake();
