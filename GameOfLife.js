@@ -71,8 +71,6 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
   self.generation = null;
   makeEmptyGeneration();
 
-  MatrixPainter_draw(self.canvas, self.generation, width, height, true);
-
   self.draw = function() {
     MatrixPainter_draw(self.canvas, self.generation, width, height, true);
   };
@@ -193,23 +191,23 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
 
   self.step = function() {
     makeNewGeneration();
-    MatrixPainter_draw(self.canvas, self.generation, width, height, true);
+    self.draw();
   };
 
   self.reset = function() {
     makeEmptyGeneration();
-    MatrixPainter_draw(self.canvas, self.generation, width, height, true);
+    self.draw();
   };
 
   self.random = function(probability) {
     makeRandomGeneration(probability);
-    MatrixPainter_draw(self.canvas, self.generation, width, height, true);
+    self.draw();
   };
 
   self.handleClick = function(x, y) {
     var pos = MatrixPainter_getPositionFromCoord(x, y, self.generation, width, height);
     self.generation[pos.y][pos.x] = Math.abs(self.generation[pos.y][pos.x] - 1);
-    MatrixPainter_draw(self.canvas, self.generation, width, height, true);
+    self.draw();
   };
 
   self.registerCallback = function(type, callback) {
