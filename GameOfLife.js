@@ -45,23 +45,20 @@ function areMatrixesEqual(matrix1, matrix2) {
 }
 
 /**
- * A world where game of life acts.
+ * A game of life.
  * @constructor
- * @param {int} sizeX  Number of elements on a horizontal.
- * @param {int} sizeY  Number of elements on a vertical.
- * @param {int} width  Width of life field in pixels.
- * @param {int} height Height of life field in pixels.
+ * @param fieldSize  {width: int, height: int} Width and height of game field in elements.
+ * @param canvas     {Object}                  Canvas element from HTML page.
+ * @param canvasSize {width: int, height: int} Width and height of canvas in pixels.
  */
-function GameOfLife(canvas, sizeX, sizeY, width, height) {
+function GameOfLife(fieldSize, canvas, canvasSize) {
   var self = this;
   self.generation = [];
   self.canvas = canvas;
-  self.width = width;
-  self.height = height;
 
   self.size = {};
-  self.size.x = sizeX;
-  self.size.y = sizeY;
+  self.size.x = fieldSize.width;
+  self.size.y = fieldSize.height;
 
   self.counter = {};
   resetCounters();
@@ -72,9 +69,11 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
   makeEmptyGeneration();
 
   self.draw = function() {
-    MatrixPainter_draw(self.canvas, self.generation, width, height, true);
+    MatrixPainter_draw(self.canvas, self.generation, canvasSize.width, canvasSize.height, true);
   };
 
+  self.draw();
+ 
   function resetCounters() {
     self.counter.numberOfGenerations = undefined;
     self.counter.initialGeneration = undefined;
@@ -205,7 +204,7 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
   };
 
   self.handleClick = function(x, y) {
-    var pos = MatrixPainter_getPositionFromCoord(x, y, self.generation, width, height);
+    var pos = MatrixPainter_getPositionFromCoord(x, y, self.generation, canvasSize.width, canvasSize.height);
     self.generation[pos.y][pos.x] = Math.abs(self.generation[pos.y][pos.x] - 1);
     self.draw();
   };
@@ -213,12 +212,4 @@ function GameOfLife(canvas, sizeX, sizeY, width, height) {
   self.registerCallback = function(type, callback) {
     self.callback[type] = callback;
   };
-}
-
-function startGameOfLife(canvas, sizeX, sizeY) {
-  var size = window.innerHeight < window.innerWidth - 300 ? window.innerHeight : window.innerWidth - 300;
-  var normalizedSize = Math.round(size * 0.9 / 10) * 10;
-  var gameOfLife = new GameOfLife(canvas, sizeX, sizeY, normalizedSize, normalizedSize);
-  gameOfLife.draw();
-  return gameOfLife;
 }

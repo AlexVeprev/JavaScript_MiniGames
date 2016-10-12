@@ -10,8 +10,14 @@ function getRandomArbitrary(min, max) {
 function replaceBiggerNeighbor(matrix) {
     
 }
-
-function Snake(canvas, sizeX, sizeY, width, height) {
+/**
+ * A snake game.
+ * @constructor
+ * @param fieldSize  {width: int, height: int} Width and height of game field in elements.
+ * @param canvas     {Object}                  Canvas element from HTML page.
+ * @param canvasSize {width: int, height: int} Width and height of canvas in pixels.
+ */
+function Snake(fieldSize, canvas, canvasSize) {
   var self = this;
 
   var Direction = Object.freeze({UP:    {x:  0,  y: -1, code: 38},
@@ -20,11 +26,11 @@ function Snake(canvas, sizeX, sizeY, width, height) {
                                  LEFT:  {x: -1,  y:  0, code: 37}});
 
   self.width = {};
-  self.width.pixel = width;
-  self.width.num = sizeX;
+  self.width.pixel = canvasSize.width;
+  self.width.num = fieldSize.width;
   self.height = {};
-  self.height.pixel = height;
-  self.height.num = sizeY;
+  self.height.pixel = canvasSize.height;
+  self.height.num = fieldSize.height;
 
   var field = [];
   var head = {};
@@ -33,8 +39,9 @@ function Snake(canvas, sizeX, sizeY, width, height) {
   self.callback = {};
 
   self.draw = function() {
-    MatrixPainter_draw(canvas, field, width, height, true);
+    MatrixPainter_draw(canvas, field, canvasSize.width, canvasSize.height, true);
   };
+  self.draw();
 
   function initiate() {
     initiateField();
@@ -148,12 +155,4 @@ function Snake(canvas, sizeX, sizeY, width, height) {
     self.callback[type] = callback;
   };
 
-}
-
-function startSnake(canvas, sizeX, sizeY) {
-  var size = window.innerHeight < window.innerWidth - 300 ? window.innerHeight : window.innerWidth - 300;
-  var normalizedSize = Math.round(size * 0.9 / 10) * 10;
-  var snake = new Snake(canvas, sizeX, sizeY, normalizedSize, normalizedSize);
-  snake.draw();
-  return snake;
 }

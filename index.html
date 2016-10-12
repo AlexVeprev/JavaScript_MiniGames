@@ -28,16 +28,17 @@
 
         function chooseGame() {
           var chosenGame = "Game of life";
-          var fieldSize = parseInt(document.getElementById('field_size').value);
+          var fieldSize = {width:  parseInt(document.getElementById('field_size').value),
+                           height: parseInt(document.getElementById('field_size').value)};
           canvas = document.getElementById("canvas");
 
           if (chosenGame == "Game of life") {
-            game = startGameOfLife(canvas, fieldSize, fieldSize);
+            game = new GameOfLife(fieldSize, canvas, getCanvasSize());
             game.registerCallback("gameover", gameOver);
             game.registerCallback("statistics", GameOfLife_statistics);
           }
-		  else if (chosenGame == "Snake") {
-            game = startSnake(canvas, fieldSize, fieldSize);
+          else if (chosenGame == "Snake") {
+            game = new Snake(fieldSize, canvas, getCanvasSize());
             game.registerCallback("gameover", gameOver);
           }
         }
@@ -138,6 +139,12 @@
             stopTimer();
             startTimer();
           }
+        }
+        
+        function getCanvasSize() {
+          var size = window.innerHeight < window.innerWidth - 300 ? window.innerHeight : window.innerWidth - 300;
+          var normalizedSize = Math.round(size * 0.9 / 10) * 10;
+          return {width: normalizedSize, height: normalizedSize};
         }
       </script>
 
