@@ -1,7 +1,29 @@
-"use strict";
+/**
+ * Visualizes a provided numeric matrix in provided canvas.
+ * @param canvas {Object} Canvas element from a HTML-page.
+ * @param matrix {int[][]} Numeric matrix to be visualized.
+ * @param width {int} Canvas width in pixels.
+ * @param height {int} Canvas height in pixels.
+ * @param shouldGridBeDrawn {bool} Flag to specify if grid should be drawn.
+ */
+function MatrixPainter_draw(canvas, matrix, width, height, shouldGridBeDrawn) {
+  "use strict";
+  var context = canvas.getContext("2d");
+  canvas.width  = width;
+  canvas.height = height;
 
-function MatrixPainter(canvas, matrix, width, height) {
-  var self = this;
+  var size = {};
+  size.x = matrix[0].length;
+  size.y = matrix.length;
+
+  var cell = {};
+  cell.width = width / size.x;
+  cell.height = height / size.y;
+  
+  drawActiveElements();
+  if (shouldGridBeDrawn) {
+    drawGrid();
+  }
 
   function drawGrid() {
     context.strokeStyle = "#777";    // Line color.
@@ -26,14 +48,14 @@ function MatrixPainter(canvas, matrix, width, height) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < size.x; i++) {
       for (var j = 0; j < size.y; j++) {
-        if (self.matrix[i][j] >= 1) {
+        if (matrix[i][j] >= 1) {
 		  context.fillStyle   = "#403026"; // Fill positive cell.
           context.fillRect(j * cell.width,
                    i * cell.height,
                    cell.width,
                    cell.height);
         }
-        else if (self.matrix[i][j] <= -1) {
+        else if (matrix[i][j] <= -1) {
 		  context.fillStyle   = "red"; // Fill negative cell.
           context.fillRect(j * cell.width,
                    i * cell.height,
@@ -43,26 +65,21 @@ function MatrixPainter(canvas, matrix, width, height) {
       }
     }
   }
+}
 
-  function draw() {
-    drawActiveElements();
-    drawGrid();
-  }
-
-  self.getPositionFromCoord = function(x, y) {
-    return {x: Math.floor(x / cell.width), y: Math.floor(y / cell.height)};
-  };
-  
-  self.update = function(matrix) {
-    self.matrix = matrix;
-    draw();
-  };
-
-  self = this;
-  self.width = width;
-  self.height = height;
-  self.matrix = matrix;
-
+/**
+ * Finds element position in a matrix basing on pixel coordinates.
+ *
+ * @param x {int} Horizontal coordinate in pixels.
+ * @param y {int} Vertical coordinate in pixels.
+ * @param matrix {int[][]} Numeric matrix to find element position in.
+ * @param width {int} Field (canvas) width in pixels.
+ * @param height {int} Field (canvas) height in pixels.
+ *
+ * @return {x: int, y: int} Position of the found element.
+ */
+function MatrixPainter_getPositionFromCoord(x, y, matrix, width, height) {
+  "use strict";
   var size = {};
   size.x = matrix[0].length;
   size.y = matrix.length;
@@ -71,9 +88,5 @@ function MatrixPainter(canvas, matrix, width, height) {
   cell.width = width / size.x;
   cell.height = height / size.y;
 
-  var context = canvas.getContext("2d");
-  canvas.width  = width;
-  canvas.height = height;
-
-  draw();
+  return {x: Math.floor(x / cell.width), y: Math.floor(y / cell.height)};
 }

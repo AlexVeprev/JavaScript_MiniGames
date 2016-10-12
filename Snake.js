@@ -30,12 +30,10 @@ function Snake(canvas, sizeX, sizeY, width, height) {
   var head = {};
   initiate();
 
-  var painter = new MatrixPainter(canvas, field, self.width.pixel, self.height.pixel);
-
   self.callback = {};
 
   self.draw = function() {
-    painter.update(field);
+    MatrixPainter_draw(canvas, field, width, height, true);
   };
 
   function initiate() {
