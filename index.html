@@ -122,10 +122,10 @@
           game.handleClick(coords.x, coords.y);
         }
 
-        function handleKeyDown(e) {
+        window.onkeydown = function(e) {
           e = e || event;
           game.handleKeyDown(e.keyCode);
-        }
+        };
 
         function updateFieldSize() {
           var label = document.getElementById('lbl_field_size');
