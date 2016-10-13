@@ -43,24 +43,6 @@
           }
         }
 
-        function step() {
-          if (game) {
-            game.step();
-          }
-        }
-
-        function reset() {
-          if (game) {
-            game.reset();
-          }
-        }
-
-        function GameOfLife_randomGeneration() {
-          if (game) {
-            game.random(0.5);
-          }
-        }
-
         function GameOfLife_statistics(statistics) {
           document.getElementById('lbl_gol_number_of_generations').innerHTML =
           "Number of generations: " + statistics.numberOfGenerations;
@@ -130,7 +112,7 @@
         function updateFieldSize() {
           var label = document.getElementById('lbl_field_size');
           var range = document.getElementById('field_size');
-          reset();
+          game.reset();
           chooseGame();
         }
 
@@ -166,15 +148,20 @@
           <tr>
             <td><div class="button" onclick="startTimer();" id="btn_start" >Start</div></td>
             <td><div class="button" onclick="stopTimer();"  >Pause</div></td>
-            <td><div class="button" onclick="reset();"      >Reset</div></td>
+            <td><div class="button" onclick="game.reset();" >Reset</div></td>
           </tr>
           <tr>
-            <td>Field size</td>
+            <td>
+              Field size
+            </td>
             <td colspan="2">
-            <input type="range" min="5" max="200" step="1" value="20" id="field_size" oninput="updateFieldSize();"></td>
+              <input type="range" min="5" max="200" step="1" value="20" id="field_size" oninput="updateFieldSize();">
+            </td>
           </tr>
           <tr>
-            <td>Display grid</td>
+            <td>
+              Display grid
+            </td>
             <td colspan="2">
               <input type="checkbox" id="chbx_display_grid" checked onchange="game.draw();">
             </td>
@@ -183,30 +170,51 @@
         <table id="game_of_life_controls">
           <caption>Game of Life</caption>
           <tr>
-            <td><div class="button" onclick="step();"       >Step</div></td>
-            <td><div class="button" onclick="GameOfLife_randomGeneration();"       >Populate</div></td>
+            <td>
+              <div class="button" onclick="game.step();">
+                Step
+              </div>
+            </td>
+            <td>
+              <div class="button" onclick="game.random(parseFloat(document.getElementById('range_gol_probability').value));">Populate</div>
+            </td>
+            <td>
+              
+            </td>
           </tr>
           <tr>
-            <td>Speed</td>
-            <td><input type="range" min="1" max="200" step="1" value="100" id="timer_interval" oninput="updateTimerSpeed();"></td>
+            <td>
+              Probability
+            </td>
+            <td colspan="2">
+              <input type="range" min="0.05" max="1" step="0.05" value="0.5" id="range_gol_probability">
+            </td>
           </tr>
           <tr>
-            <td colspan="2">STATISTICS</td>
+            <td>
+              Speed
+            </td>
+            <td colspan="2">
+              <input type="range" min="1" max="200" step="1" value="100" id="timer_interval" oninput="updateTimerSpeed();">
+            </td>
           </tr>
           <tr>
-            <td colspan="2" class="statistics" id="lbl_gol_result">Result: unknown</td>
+            <td colspan="3">STATISTICS</td>
           </tr>
           <tr>
-            <td colspan="2" class="statistics" id="lbl_gol_population_vitality">Population vitality: unknown</td>
+            <td colspan="3" class="statistics" id="lbl_gol_result">Result: unknown</td>
           </tr>
           <tr>
-            <td colspan="2" class="statistics" id="lbl_gol_number_of_generations">Number of generations: unknown</td>
+            <td colspan="3" class="statistics" id="lbl_gol_population_vitality">Population vitality: unknown</td>
           </tr>
           <tr>
-            <td colspan="2" class="statistics" id="lbl_gol_initial_generation">Size of initial generation: unknown</td>
+            <td colspan="3" class="statistics" id="lbl_gol_number_of_generations">Number of generations: unknown</td>
           </tr>
           <tr>
-            <td colspan="2" class="statistics" id="lbl_gol_final_generation">Size of final generation: unknown</td>
+            <td colspan="3" class="statistics" id="lbl_gol_initial_generation">Size of initial generation: unknown</td>
+          </tr>
+          <tr>
+            <td colspan="3" class="statistics" id="lbl_gol_final_generation">Size of final generation: unknown</td>
           </tr>
         </table>
       </td>
