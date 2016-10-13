@@ -1,8 +1,8 @@
 describe("GameOfLife", function() {
 
   it("Normalization in impossible ranges.", function() {
-    expect(normalize.bind(normalize, 4, 0)).to.throw(ReferenceError);
-    expect(normalize.bind(normalize, 1, 1, 2)).to.throw(ReferenceError);
+    expect(normalize.bind(normalize, 4, 0)).to.throw(Error);
+    expect(normalize.bind(normalize, 1, 1, 2)).to.throw(Error);
   });
 
   it("Single normalization above the upper limit.", function() {

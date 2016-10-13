@@ -110,8 +110,6 @@
         };
 
         function updateFieldSize() {
-          var label = document.getElementById('lbl_field_size');
-          var range = document.getElementById('field_size');
           game.reset();
           chooseGame();
         }
@@ -122,7 +120,7 @@
             startTimer();
           }
         }
-        
+
         function getCanvasSize() {
           var size = window.innerHeight < window.innerWidth - 300 ? window.innerHeight : window.innerWidth - 300;
           var normalizedSize = Math.round(size * 0.9 / 10) * 10;

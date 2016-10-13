@@ -5,6 +5,7 @@
  * @param n {int} A number to be normilized.
  * @param max {int} The upper limit of the closed range.
  * @param min {int} The lower limit of the closed range (default: 0).
+ * @throws {Error} If min >= max.
  * @return {int} Normilized n.
  */
 function normalize(n, max, min) {
@@ -13,7 +14,7 @@ function normalize(n, max, min) {
   }
 
   if (min >= max) {
-    throw ReferenceError("Impossible range: " + min + ".." + max);
+    throw Error("Impossible range: " + min + ".." + max);
   }
 
   if (n >= max) {
