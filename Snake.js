@@ -56,7 +56,8 @@ function Snake(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
     placeFood();
   }
 
-  function initiateField() {    
+  function initiateField() {
+    field = [];
     for (var y = 0; y < self.height.num; y++) {
       var row = [];
       for (var x = 0; x < self.width.num; x++) {
@@ -169,6 +170,12 @@ function Snake(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
    */
   self.showOrHideGrid = function(e) {
     shouldGridBeDrawn = e.target.checked;
+    self.draw();
+  };
+
+  /** Resets the game and redraws the game field. */
+  self.reset = function() {
+    initiate();
     self.draw();
   };
 
