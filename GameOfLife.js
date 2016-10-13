@@ -50,8 +50,9 @@ function areMatrixesEqual(matrix1, matrix2) {
  * @param fieldSize  {width: int, height: int} Width and height of game field in elements.
  * @param canvas     {Object}                  Canvas element from HTML page.
  * @param canvasSize {width: int, height: int} Width and height of canvas in pixels.
+ * @param shouldGridBeDrawn {bool} Flag to specify if grid should be drawn.
  */
-function GameOfLife(fieldSize, canvas, canvasSize) {
+function GameOfLife(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
   var self = this;
   self.generation = [];
   self.canvas = canvas;
@@ -69,7 +70,7 @@ function GameOfLife(fieldSize, canvas, canvasSize) {
   makeEmptyGeneration();
 
   self.draw = function() {
-    MatrixPainter_draw(self.canvas, self.generation, canvasSize.width, canvasSize.height, true);
+    MatrixPainter_draw(self.canvas, self.generation, canvasSize.width, canvasSize.height, shouldGridBeDrawn);
   };
 
   self.draw();
@@ -204,14 +205,19 @@ function GameOfLife(fieldSize, canvas, canvasSize) {
     self.draw();
   };
 
-  self.random = function(probability) {
-    makeRandomGeneration(probability);
+  self.displayGrid = function(e) {
+    shouldGridBeDrawn = e.target.checked;
     self.draw();
   };
 
   self.handleClick = function(x, y) {
     var pos = MatrixPainter_getPositionFromCoord(x, y, self.generation, canvasSize.width, canvasSize.height);
     self.generation[pos.y][pos.x] = Math.abs(self.generation[pos.y][pos.x] - 1);
+    self.draw();
+  };
+  
+  self.random = function(probability) {
+    makeRandomGeneration(probability);
     self.draw();
   };
 

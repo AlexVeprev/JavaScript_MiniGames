@@ -16,8 +16,9 @@ function replaceBiggerNeighbor(matrix) {
  * @param fieldSize  {width: int, height: int} Width and height of game field in elements.
  * @param canvas     {Object}                  Canvas element from HTML page.
  * @param canvasSize {width: int, height: int} Width and height of canvas in pixels.
+ * @param shouldGridBeDrawn {bool} Flag to specify if grid should be drawn.
  */
-function Snake(fieldSize, canvas, canvasSize) {
+function Snake(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
   var self = this;
 
   var Direction = Object.freeze({UP:    {x:  0,  y: -1, code: 38},
@@ -39,7 +40,7 @@ function Snake(fieldSize, canvas, canvasSize) {
   self.callback = {};
 
   self.draw = function() {
-    MatrixPainter_draw(canvas, field, canvasSize.width, canvasSize.height, true);
+    MatrixPainter_draw(canvas, field, canvasSize.width, canvasSize.height, shouldGridBeDrawn);
   };
   self.draw();
 
@@ -155,6 +156,11 @@ function Snake(fieldSize, canvas, canvasSize) {
         head.direction = Direction[key];
       }
     }
+  };
+
+  self.displayGrid = function(e) {
+    shouldGridBeDrawn = e.target.checked;
+    self.draw();
   };
 
   self.registerCallback = function(type, callback) {

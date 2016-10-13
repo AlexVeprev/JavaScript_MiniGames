@@ -33,12 +33,12 @@
           canvas = document.getElementById("canvas");
 
           if (chosenGame == "Game of life") {
-            game = new GameOfLife(fieldSize, canvas, getCanvasSize());
+            game = new GameOfLife(fieldSize, canvas, getCanvasSize(), document.getElementById('chbx_display_grid').checked);
             game.registerCallback("gameover", gameOver);
             game.registerCallback("statistics", GameOfLife_statistics);
           }
           else if (chosenGame == "Snake") {
-            game = new Snake(fieldSize, canvas, getCanvasSize());
+            game = new Snake(fieldSize, canvas, getCanvasSize(), document.getElementById('chbx_display_grid').checked);
             game.registerCallback("gameover", gameOver);
           }
         }
@@ -157,7 +157,7 @@
       <script type="text/javascript" src="Snake.js"></script>
   </head>
 
-<body onload=chooseGame(); onkeydown=handleKeyDown();>
+<body onload=chooseGame();>
   <table id="content">
     <tr>
       <td id="controls">
@@ -172,6 +172,12 @@
             <td>Field size</td>
             <td colspan="2">
             <input type="range" min="5" max="200" step="1" value="20" id="field_size" oninput="updateFieldSize();"></td>
+          </tr>
+          <tr>
+            <td>Display grid</td>
+            <td colspan="2">
+              <input type="checkbox" id="chbx_display_grid" checked onchange="game.displayGrid(event);">
+            </td>
           </tr>
         </table>
         <table id="game_of_life_controls">
