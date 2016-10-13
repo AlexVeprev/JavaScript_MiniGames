@@ -195,27 +195,42 @@ function GameOfLife(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
     self.generation = newGeneration;
   }
 
+  /** Makes a step in the game and redraws the game field. */
   self.step = function() {
     makeNewGeneration();
     self.draw();
   };
 
+  /** Resets the game and redraws the game field. */
   self.reset = function() {
     makeEmptyGeneration();
     self.draw();
   };
 
-  self.displayGrid = function(e) {
+  /**
+   * Handles event of a change of the check-box to show/hide the grid.
+   * @param e {Object} Event object.
+   */
+  self.showOrHideGrid = function(e) {
     shouldGridBeDrawn = e.target.checked;
     self.draw();
   };
 
+  /** 
+   * Handles mouse click on the game field, performs needed action and redraws the game field.
+   * @param x {int} Horizontal coordinate of the click in pixels.
+   * @param y {int} Vertical coordinate of the click in pixels.
+   */
   self.handleClick = function(x, y) {
     var pos = MatrixPainter_getPositionFromCoord(x, y, self.generation, canvasSize.width, canvasSize.height);
     self.generation[pos.y][pos.x] = Math.abs(self.generation[pos.y][pos.x] - 1);
     self.draw();
   };
-  
+
+  /**
+   * Randomly activates elements in the game field and redraws the game field.
+   * @param probability {float} Probability of element activating.
+   */
   self.random = function(probability) {
     makeRandomGeneration(probability);
     self.draw();

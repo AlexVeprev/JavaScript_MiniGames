@@ -103,6 +103,7 @@ function Snake(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
     return true;
   }
 
+  /** Makes a step in the game and redraws the game field. */
   self.step = function() {
     var newHeadPos = {x: head.x + head.direction.x,
                       y: head.y + head.direction.y};
@@ -150,6 +151,10 @@ function Snake(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
     self.draw();
   };
 
+  /**
+   * Handles key-down event and performs needed actions.
+   * @param keyCode {int} Code of the pressed key.
+   */
   self.handleKeyDown = function(keyCode) {
     for (var key in Direction) {
       if (Direction[key].code == keyCode && (Direction[key].x != -head.direction.x || Direction[key].y != -head.direction.y)) {
@@ -158,7 +163,11 @@ function Snake(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
     }
   };
 
-  self.displayGrid = function(e) {
+  /**
+   * Handles event of a change of the check-box to show/hide the grid.
+   * @param e {Object} Event object.
+   */
+  self.showOrHideGrid = function(e) {
     shouldGridBeDrawn = e.target.checked;
     self.draw();
   };
