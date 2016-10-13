@@ -33,12 +33,12 @@
           canvas = document.getElementById("canvas");
 
           if (chosenGame == "Game of life") {
-            game = new GameOfLife(fieldSize, canvas, getCanvasSize(), document.getElementById('chbx_display_grid').checked);
+            game = new GameOfLife(fieldSize, canvas, getCanvasSize(), document.getElementById('chbx_display_grid'));
             game.registerCallback("gameover", gameOver);
             game.registerCallback("statistics", GameOfLife_statistics);
           }
           else if (chosenGame == "Snake") {
-            game = new Snake(fieldSize, canvas, getCanvasSize(), document.getElementById('chbx_display_grid').checked);
+            game = new Snake(fieldSize, canvas, getCanvasSize(), document.getElementById('chbx_display_grid'));
             game.registerCallback("gameover", gameOver);
           }
         }
@@ -176,7 +176,7 @@
           <tr>
             <td>Display grid</td>
             <td colspan="2">
-              <input type="checkbox" id="chbx_display_grid" checked onchange="game.showOrHideGrid(event);">
+              <input type="checkbox" id="chbx_display_grid" checked onchange="game.draw();">
             </td>
           </tr>
         </table>

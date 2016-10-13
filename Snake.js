@@ -16,9 +16,9 @@ function replaceBiggerNeighbor(matrix) {
  * @param fieldSize  {width: int, height: int} Width and height of game field in elements.
  * @param canvas     {Object}                  Canvas element from HTML page.
  * @param canvasSize {width: int, height: int} Width and height of canvas in pixels.
- * @param shouldGridBeDrawn {bool} Flag to specify if grid should be drawn.
+ * @param gridCheckbox {Object}                Reference to UI element: checkbox for hiding/showing grid.
  */
-function Snake(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
+function Snake(fieldSize, canvas, canvasSize, gridCheckbox) {
   var self = this;
 
   var Direction = Object.freeze({UP:    {x:  0,  y: -1, code: 38},
@@ -40,7 +40,7 @@ function Snake(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
   self.callback = {};
 
   self.draw = function() {
-    MatrixPainter_draw(canvas, field, canvasSize.width, canvasSize.height, shouldGridBeDrawn);
+    MatrixPainter_draw(canvas, field, canvasSize.width, canvasSize.height, gridCheckbox.checked);
   };
   self.draw();
 
@@ -162,15 +162,6 @@ function Snake(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
         head.direction = Direction[key];
       }
     }
-  };
-
-  /**
-   * Handles event of a change of the check-box to show/hide the grid.
-   * @param e {Object} Event object.
-   */
-  self.showOrHideGrid = function(e) {
-    shouldGridBeDrawn = e.target.checked;
-    self.draw();
   };
 
   /** Resets the game and redraws the game field. */

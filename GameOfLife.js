@@ -50,9 +50,10 @@ function areMatrixesEqual(matrix1, matrix2) {
  * @param fieldSize  {width: int, height: int} Width and height of game field in elements.
  * @param canvas     {Object}                  Canvas element from HTML page.
  * @param canvasSize {width: int, height: int} Width and height of canvas in pixels.
- * @param shouldGridBeDrawn {bool} Flag to specify if grid should be drawn.
+ * @param gridCheckbox {Object}                Reference to UI element: checkbox for hiding/showing grid.
+ * @param probabilityRange {Object}            Reference to UI element: range of probability of random population.
  */
-function GameOfLife(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
+function GameOfLife(fieldSize, canvas, canvasSize, gridCheckbox, probabilityRange) {
   var self = this;
   self.generation = [];
   self.canvas = canvas;
@@ -70,7 +71,7 @@ function GameOfLife(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
   makeEmptyGeneration();
 
   self.draw = function() {
-    MatrixPainter_draw(self.canvas, self.generation, canvasSize.width, canvasSize.height, shouldGridBeDrawn);
+    MatrixPainter_draw(self.canvas, self.generation, canvasSize.width, canvasSize.height, gridCheckbox.checked);
   };
 
   self.draw();
@@ -204,15 +205,6 @@ function GameOfLife(fieldSize, canvas, canvasSize, shouldGridBeDrawn) {
   /** Resets the game and redraws the game field. */
   self.reset = function() {
     makeEmptyGeneration();
-    self.draw();
-  };
-
-  /**
-   * Handles event of a change of the check-box to show/hide the grid.
-   * @param e {Object} Event object.
-   */
-  self.showOrHideGrid = function(e) {
-    shouldGridBeDrawn = e.target.checked;
     self.draw();
   };
 
