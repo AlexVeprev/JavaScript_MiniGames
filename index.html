@@ -6,40 +6,25 @@
 
       <script type="text/javascript">
         "use strict";
-        var timer = null;
         var game = null;
         var canvas = null;
 
-        function startTimer() {
-          if (game) {
-            var interval = 2000 / parseInt(document.getElementById('timer_interval').value);
-            timer = setInterval(game.step, interval);
-            return;
-          }
-          alert("Nothing to start.");
-        }
-
-        function stopTimer() {
-          if (timer) {
-            clearInterval(timer);
-            timer = null;
-          }
-        }
-
         function chooseGame() {
-          var chosenGame = "Game of life";
+          var chosenGame = "Snake";
           var fieldSize = {width:  parseInt(document.getElementById('field_size').value),
                            height: parseInt(document.getElementById('field_size').value)};
           canvas = document.getElementById("canvas");
 
           if (chosenGame == "Game of life") {
-            game = new GameOfLife(fieldSize, canvas, getCanvasSize(), document.getElementById('chbx_display_grid'));
-            game.registerCallback("gameover", gameOver);
+            game = new GameOfLife(fieldSize,
+                                  canvas,
+                                  getCanvasSize(),
+                                  document.getElementById('chbx_display_grid'),
+                                  document.getElementById('range_gol_speed'));
             game.registerCallback("statistics", GameOfLife_statistics);
           }
           else if (chosenGame == "Snake") {
             game = new Snake(fieldSize, canvas, getCanvasSize(), document.getElementById('chbx_display_grid'));
-            game.registerCallback("gameover", gameOver);
           }
         }
 
@@ -73,10 +58,6 @@
             document.getElementById('lbl_gol_population_vitality').innerHTML =
             "Population vitality: unknown";
           }
-        }
-
-        function gameOver() {
-          stopTimer();
         }
 
         function relMouseCoords(event) {
@@ -114,13 +95,6 @@
           chooseGame();
         }
 
-        function updateTimerSpeed() {
-          if (timer) {
-            stopTimer();
-            startTimer();
-          }
-        }
-
         function getCanvasSize() {
           var size = window.innerHeight < window.innerWidth - 300 ? window.innerHeight : window.innerWidth - 300;
           var normalizedSize = Math.round(size * 0.9 / 10) * 10;
@@ -144,8 +118,8 @@
         <table id="general_controls">
           <caption>General controls</caption>
           <tr>
-            <td><div class="button" onclick="startTimer();" id="btn_start" >Start</div></td>
-            <td><div class="button" onclick="stopTimer();"  >Pause</div></td>
+            <td><div class="button" onclick="game.start();" id="btn_start" >Start</div></td>
+            <td><div class="button" onclick="game.pause();"  >Pause</div></td>
             <td><div class="button" onclick="game.reset();" >Reset</div></td>
           </tr>
           <tr>
@@ -193,7 +167,7 @@
               Speed
             </td>
             <td colspan="2">
-              <input type="range" min="1" max="200" step="1" value="100" id="timer_interval" oninput="updateTimerSpeed();">
+              <input type="range" min="1" max="200" step="1" value="100" id="range_gol_speed" oninput="game.setSpeed();">
             </td>
           </tr>
           <tr>

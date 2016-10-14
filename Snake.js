@@ -47,6 +47,9 @@
     self.height.pixel = canvasSize.height;
     self.height.num = fieldSize.height;
 
+    var level = 1;
+    var getSpeed = function() {return Math.round(1000 / level);};
+    var timer = null;
     var field = [];
     var head = {};
     initiate();
@@ -178,9 +181,29 @@
       }
     };
 
+    /** Starts the game. */
+    self.start = function() {
+      timer = setInterval(game.step, getSpeed());
+    };
+
+    /** Stops the game. */
+    self.stop = function () {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+ 
+    /** Pauses the game. */
+    self.pause = self.stop;
+    
     /** Resets the game and redraws the game field. */
     self.reset = function() {
       initiate();
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
       self.draw();
     };
 

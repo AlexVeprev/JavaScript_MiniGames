@@ -65,9 +65,9 @@
    * @param canvas           {Object} Canvas element from HTML page.
    * @param canvasSize       {Size}   Canvas size in pixels.
    * @param gridCheckbox     {Object} Reference to UI element: checkbox for hiding/showing grid.
-   * @param probabilityRange {Object} Reference to UI element: range of probability of random population.
+   * @param speedRange       {Object} Reference to UI element: range of speed of appearing of new generations.
    */
-  function GameOfLife(fieldSize, canvas, canvasSize, gridCheckbox, probabilityRange) {
+  function GameOfLife(fieldSize, canvas, canvasSize, gridCheckbox, speedRange) {
     var self = this;
     self.generation = [];
     self.canvas = canvas;
@@ -79,10 +79,21 @@
     self.counter = {};
     resetCounters();
 
-    self.callback = {};
+    var callback = {};
 
     self.generation = null;
     makeEmptyGeneration();
+    
+    var timer = null;
+    var speed;
+    self.setSpeed = function() {
+      speed = 2000 / speedRange.value;
+      if (timer) {
+        self.stop();
+        self.start();
+      }
+    };
+    self.setSpeed();
 
     self.draw = function() {
       window.MatrixPainter.draw(self.canvas, self.generation, canvasSize.width, canvasSize.height, gridCheckbox.checked);
@@ -112,6 +123,21 @@
       return counter;
     }
 
+    function gameOver() {
+      self.stop();
+      callback.gameover();
+
+      if (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration)) {
+        self.counter.numberOfGenerations++;
+      }
+
+      self.counter.finalGeneration = countGeneration(newGeneration);
+
+      callback.statistics(self.counter);
+
+      resetCounters();
+    }
+    
     function makeEmptyGeneration() {
       var emptyGeneration = [];
 
@@ -186,29 +212,34 @@
         newGeneration.push(row);
       }
 
-      if (self.callback.statistics) {
-        self.callback.statistics(self.counter);
+      if (callback.statistics) {
+        callback.statistics(self.counter);
       }
 
       if (areMatrixesEqual(newGeneration, self.generation) ||
           (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration))) {
-
-        self.callback.gameover();
-
-        if (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration)) {
-          self.counter.numberOfGenerations++;
-        }
-
-        self.counter.finalGeneration = countGeneration(newGeneration);
-
-        self.callback.statistics(self.counter);
-
-        resetCounters();
+        gameOver();
       }
 
       self.previousGeneration = self.generation;
       self.generation = newGeneration;
     }
+
+    /** Starts the game. */
+    self.start = function() {
+      timer = setInterval(game.step, speed);
+    };
+
+    /** Stops the game. */
+    self.stop = function () {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+ 
+    /** Pauses the game. */
+    self.pause = self.stop;
 
     /** Makes a step in the game and redraws the game field. */
     self.step = function() {
@@ -218,6 +249,10 @@
 
     /** Resets the game and redraws the game field. */
     self.reset = function() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
       makeEmptyGeneration();
       self.draw();
     };
@@ -244,7 +279,7 @@
     };
 
     self.registerCallback = function(type, callback) {
-      self.callback[type] = callback;
+      callback[type] = callback;
     };
   }
 
