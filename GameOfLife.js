@@ -227,6 +227,9 @@
 
     /** Starts the game. */
     self.start = function() {
+      if (timer) {
+        clearInterval(timer);
+      }
       timer = setInterval(game.step, speed);
     };
 
