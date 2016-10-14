@@ -47,8 +47,8 @@
     self.height.pixel = canvasSize.height;
     self.height.num = fieldSize.height;
 
-    var level = 1;
-    var getSpeed = function() {return Math.round(1000 / level);};
+    var level;
+    var getSpeed = function() {return Math.round(500 * Math.pow(0.9, level));};
     var timer = null;
     var field = [];
     var head = {};
@@ -68,6 +68,7 @@
     };
 
     function initiate() {
+      level = 1;
       initiateField();
       placeInitialSnake();
       placeFood();
@@ -165,10 +166,17 @@
 
       if (food) {
         placeFood();
+        levelUp();
       }
       self.draw();
     };
 
+    function levelUp() {
+      level++;
+      self.stop();
+      self.start();
+    }
+    
     /**
      * Handles key-down event and performs needed actions.
      * @param keyCode {int} Code of the pressed key.
