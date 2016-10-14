@@ -1,10 +1,11 @@
 /**
  * Visualizes a provided numeric matrix in provided canvas.
- * @param canvas {Object} Canvas element from a HTML-page.
- * @param matrix {int[][]} Numeric matrix to be visualized.
- * @param width {int} Canvas width in pixels.
- * @param height {int} Canvas height in pixels.
- * @param shouldGridBeDrawn {bool} Flag to specify if grid should be drawn.
+ *
+ * @param canvas            {Object}     Canvas element from a HTML-page.
+ * @param matrix            {number[][]} Numeric matrix to be visualized.
+ * @param width             {int}        Canvas width in pixels.
+ * @param height            {int}        Canvas height in pixels.
+ * @param shouldGridBeDrawn {bool}       Flag to specify if grid should be drawn.
  */
 function MatrixPainter_draw(canvas, matrix, width, height, shouldGridBeDrawn) {
   "use strict";
@@ -68,15 +69,21 @@ function MatrixPainter_draw(canvas, matrix, width, height, shouldGridBeDrawn) {
 }
 
 /**
+ @typedef {Object} Position
+ @property {int} x The x coordinate.
+ @property {int} y The y coordinate.
+ */
+
+/**
  * Finds element position in a matrix basing on pixel coordinates.
  *
- * @param x {int} Horizontal coordinate in pixels.
- * @param y {int} Vertical coordinate in pixels.
- * @param matrix {int[][]} Numeric matrix to find element position in.
- * @param width {int} Field (canvas) width in pixels.
- * @param height {int} Field (canvas) height in pixels.
+ * @param x {int}             The x coordinate in pixels.
+ * @param y {int}             The y coordinate in pixels.
+ * @param matrix {number[][]} Numeric matrix to find element position in.
+ * @param width {int}         Field (canvas) width in pixels.
+ * @param height {int}        Field (canvas) height in pixels.
  *
- * @return {x: int, y: int} Position of the found element.
+ * @returns {Position} The position of the found element.
  */
 function MatrixPainter_getPositionFromCoord(x, y, matrix, width, height) {
   "use strict";

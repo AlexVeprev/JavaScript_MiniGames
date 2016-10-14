@@ -1,7 +1,12 @@
 "use strict";
 
 /**
- * Returns a random number between min (inclusive) and max (exclusive)
+ * Generates a random number between min (inclusive) and max (exclusive).
+ *
+ * @param min {int} Minimal limit (inclusive).
+ * @param max {int} Maximum limit (exclusive).
+ *
+ * @returns {int} The random number.
  */
 function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -10,13 +15,21 @@ function getRandomArbitrary(min, max) {
 function replaceBiggerNeighbor(matrix) {
     
 }
+
+ /**
+ @typedef {Object} Size
+ @property {int} width The width.
+ @property {int} height The height.
+ */
+
 /**
  * A snake game.
- * @constructor
- * @param fieldSize  {width: int, height: int} Width and height of game field in elements.
- * @param canvas     {Object}                  Canvas element from HTML page.
- * @param canvasSize {width: int, height: int} Width and height of canvas in pixels.
- * @param gridCheckbox {Object}                Reference to UI element: checkbox for hiding/showing grid.
+ * @class
+ *
+ * @param fieldSize        {Size}   Field size in elements.
+ * @param canvas           {Object} Canvas element from HTML page.
+ * @param canvasSize       {Size}   Canvas size in pixels.
+ * @param gridCheckbox     {Object} Reference to UI element: checkbox for hiding/showing grid.
  */
 function Snake(fieldSize, canvas, canvasSize, gridCheckbox) {
   var self = this;
@@ -173,5 +186,4 @@ function Snake(fieldSize, canvas, canvasSize, gridCheckbox) {
   self.registerCallback = function(type, callback) {
     self.callback[type] = callback;
   };
-
 }

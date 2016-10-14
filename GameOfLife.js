@@ -2,11 +2,14 @@
 
 /**
  * Keeps n in a closed range min <= n < max (normilize).
- * @param n {int} A number to be normilized.
+ *
+ * @param n   {int} A number to be normilized.
  * @param max {int} The upper limit of the closed range.
  * @param min {int} The lower limit of the closed range (default: 0).
+ *
  * @throws {Error} If min >= max.
- * @return {int} Normilized n.
+ *
+ * @returns {int} Normilized n.
  */
 function normalize(n, max, min) {
   if (min === undefined) {
@@ -30,9 +33,11 @@ function normalize(n, max, min) {
 
 /**
  * Compares two matrixes by going through elements one-by-one.
- * @param matrix1 {[][]} Matrix 1.
- * @param matrix2 {[][]} Matrix 2.
- * @return {bool} Result of comparison.
+ *
+ * @param matrix1 {number[][]} Matrix 1.
+ * @param matrix2 {number[][]} Matrix 2.
+ *
+ * @returns {bool} Result of comparison.
  */
 function areMatrixesEqual(matrix1, matrix2) {
   for (var i = 0; i < matrix1.length; i++) {
@@ -46,13 +51,20 @@ function areMatrixesEqual(matrix1, matrix2) {
 }
 
 /**
+ @typedef {Object} Size
+ @property {int} width The width.
+ @property {int} height The height.
+ */
+
+/**
  * A game of life.
- * @constructor
- * @param fieldSize  {width: int, height: int} Width and height of game field in elements.
- * @param canvas     {Object}                  Canvas element from HTML page.
- * @param canvasSize {width: int, height: int} Width and height of canvas in pixels.
- * @param gridCheckbox {Object}                Reference to UI element: checkbox for hiding/showing grid.
- * @param probabilityRange {Object}            Reference to UI element: range of probability of random population.
+ * @class
+ *
+ * @param fieldSize        {Size}   Field size in elements.
+ * @param canvas           {Object} Canvas element from HTML page.
+ * @param canvasSize       {Size}   Canvas size in pixels.
+ * @param gridCheckbox     {Object} Reference to UI element: checkbox for hiding/showing grid.
+ * @param probabilityRange {Object} Reference to UI element: range of probability of random population.
  */
 function GameOfLife(fieldSize, canvas, canvasSize, gridCheckbox, probabilityRange) {
   var self = this;
@@ -222,6 +234,7 @@ function GameOfLife(fieldSize, canvas, canvasSize, gridCheckbox, probabilityRang
 
   /**
    * Randomly activates elements in the game field and redraws the game field.
+   *
    * @param probability {float} Probability of element activating.
    */
   self.random = function(probability) {
