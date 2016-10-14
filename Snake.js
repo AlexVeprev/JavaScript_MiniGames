@@ -49,6 +49,7 @@
 
     var level;
     var getSpeed = function() {return Math.round(500 * Math.pow(0.9, level));};
+    var directions = [];
     var timer = null;
     var field = [];
     var head = {};
@@ -69,6 +70,7 @@
 
     function initiate() {
       level = 1;
+      directions = [];
       initiateField();
       placeInitialSnake();
       placeFood();
@@ -124,11 +126,15 @@
 
     /** Makes a step in the game and redraws the game field. */
     self.step = function() {
+      if (directions.length > 0) {
+        head.direction = directions[0];
+        directions.shift();
+      }
       var newHeadPos = {x: head.x + head.direction.x,
                         y: head.y + head.direction.y};
 
       if (!checkNewHeadPos(newHeadPos)) {
-        self.callback.gameover();
+        gameOver();
         return;
       }
 
@@ -182,12 +188,25 @@
      * @param keyCode {int} Code of the pressed key.
      */
     self.handleKeyDown = function(keyCode) {
+      var d;  // direction.
+      var ld = directions.length > 0 ? directions[directions.length - 1] : head.direction; // last direction.
+
       for (var key in Direction) {
-        if (Direction[key].code == keyCode && (Direction[key].x != -head.direction.x || Direction[key].y != -head.direction.y)) {
-          head.direction = Direction[key];
+        d = Direction[key];
+        if (keyCode != d.code) {
+          continue;
         }
+        if ((d.x == ld.x && d.y == ld.y) || (d.x == -ld.x && d.y == -ld.y)) {
+          continue;
+        }
+   
+        directions.push(Direction[key]);
       }
     };
+
+    function gameOver() {
+      self.stop();
+    }
 
     /** Starts the game. */
     self.start = function() {
