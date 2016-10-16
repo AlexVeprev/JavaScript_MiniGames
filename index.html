@@ -10,12 +10,11 @@
         var canvas = null;
 
         function chooseGame() {
-          var chosenGame = "Snake";
           var fieldSize = {width:  parseInt(document.getElementById('field_size').value),
                            height: parseInt(document.getElementById('field_size').value)};
           canvas = document.getElementById("canvas");
 
-          if (chosenGame == "Game of life") {
+          if (document.getElementById('radio_gol').checked) {
             game = new GameOfLife(fieldSize,
                                   canvas,
                                   getCanvasSize(),
@@ -23,7 +22,7 @@
                                   document.getElementById('range_gol_speed'));
             game.registerCallback("statistics", GameOfLife_statistics);
           }
-          else if (chosenGame == "Snake") {
+          else if (document.getElementById('radio_snake').checked) {
             game = new Snake(fieldSize, canvas, getCanvasSize(), document.getElementById('chbx_display_grid'));
           }
         }
@@ -118,6 +117,19 @@
         <table id="general_controls">
           <caption>General controls</caption>
           <tr>
+            <td colspan="3">
+              <input type=radio name=game_selector id=radio_gol checked onchange="chooseGame();">
+              <label for=radio_gol>Game of life</label>
+              </td>
+          </tr>
+          <tr>
+            <td colspan="3">
+              <input type=radio name=game_selector id=radio_snake onchange="chooseGame();">
+              <label for=radio_snake>Snake</label>
+              </td>
+              </td>
+          </tr>
+          <tr>
             <td><button type="button" onclick="game.start();" id="btn_start">Start</button></td>
             <td><button type="button" onclick="game.pause();" id="btn_pause">Pause</button></td>
             <td><button type="button" onclick="game.reset();" id="btn_reset">Reset</button></td>
@@ -131,11 +143,8 @@
             </td>
           </tr>
           <tr>
-            <td>
-              Display grid
-            </td>
-            <td colspan="2">
-              <input type="checkbox" id="chbx_display_grid" checked onchange="game.draw();">
+            <td colspan="3">
+              <label>Display grid<input type=checkbox name=display_grid id=chbx_display_grid checked onchange="game.draw();"></label>
             </td>
           </tr>
         </table>

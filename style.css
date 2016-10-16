@@ -33,6 +33,15 @@ body {
   padding: 0 5px 5px 0;
 }
 
+input[type=radio] {
+  display: none;
+}
+
+input[type=radio]:checked + label {
+  background-color: #d4ffcb;
+  color: #403026;
+}
+
 button {
   width: 80px;
   color: #403026;
