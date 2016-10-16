@@ -18,7 +18,13 @@
             game.reset();
           }
 
+          var specialControls = document.getElementsByClassName("special_controls");
+          for (var i = 0; i < specialControls.length; i++) {
+            specialControls[i].style.display = "none";
+          }
+
           if (document.getElementById('radio_gol').checked) {
+            document.getElementById("gol_controls").style.display = "block";
             game = new GameOfLife(fieldSize,
                                   canvas,
                                   getCanvasSize(),
@@ -134,7 +140,7 @@
             </td>
           </tr>
         </table>
-        <table id="general_controls">
+        <table class=general_controls>
           <tr>
             <td><button type="button" onclick="game.start();" id="btn_start">Start</button></td>
             <td><button type="button" onclick="game.pause();" id="btn_pause">Pause</button></td>
@@ -153,7 +159,7 @@
             </td>
           </tr>
         </table>
-        <table id="gol_controls">
+        <table id=gol_controls class=special_controls>
           <tr>
             <td><button type="button" onclick="game.step();" id="btn_step">Step</button></td>
             <td><button type="button" onclick="game.random(parseFloat(document.getElementById('range_gol_probability').value));" id="btn_populate">Populate</button></td>
