@@ -55,7 +55,7 @@
     var head = {};
     initiate();
 
-    self.callback = {};
+    var callback = {};
 
     self.draw = function() {
       window.MatrixPainter.draw(canvas, field, canvasSize.width, canvasSize.height, gridCheckbox.checked);
@@ -237,8 +237,8 @@
       self.draw();
     };
 
-    self.registerCallback = function(type, callback) {
-      self.callback[type] = callback;
+    self.registerCallback = function(type, _callback) {
+      callback[type] = _callback;
     };
   }
 

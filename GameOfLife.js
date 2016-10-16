@@ -126,11 +126,7 @@
     function gameOver() {
       self.stop();
 
-      if (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration)) {
-        self.counter.numberOfGenerations++;
-      }
-
-      self.counter.finalGeneration = countGeneration(newGeneration);
+      self.counter.finalGeneration = countGeneration(self.generation);
 
       callback.statistics(self.counter);
 
@@ -217,7 +213,14 @@
 
       if (areMatrixesEqual(newGeneration, self.generation) ||
           (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration))) {
+
+        if (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration)) {
+          self.counter.numberOfGenerations++;
+        }
+        self.previousGeneration = self.generation;
+        self.generation = newGeneration;
         gameOver();
+        return;
       }
 
       self.previousGeneration = self.generation;
@@ -280,8 +283,8 @@
       self.draw();
     };
 
-    self.registerCallback = function(type, callback) {
-      callback[type] = callback;
+    self.registerCallback = function(type, _callback) {
+      callback[type] = _callback;
     };
   }
 
