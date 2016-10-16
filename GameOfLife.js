@@ -217,6 +217,10 @@
         if (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration)) {
           self.counter.numberOfGenerations++;
         }
+        else if (countGeneration(newGeneration) === 0) {
+          self.counter.numberOfGenerations--;
+        }
+
         self.previousGeneration = self.generation;
         self.generation = newGeneration;
         gameOver();
@@ -258,6 +262,8 @@
         clearInterval(timer);
         timer = null;
       }
+      resetCounters();
+      callback.statistics(self.counter);
       makeEmptyGeneration();
       self.draw();
     };

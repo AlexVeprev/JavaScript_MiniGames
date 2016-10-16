@@ -34,32 +34,34 @@
         function GameOfLife_statistics(statistics) {
           document.getElementById('lbl_gol_number_of_generations').innerHTML =
           "Number of generations: " + statistics.numberOfGenerations;
+
           document.getElementById('lbl_gol_initial_generation').innerHTML =
           "Size of initial generation: " + statistics.initialGeneration;
-          var result = null;
+
+          document.getElementById('lbl_gol_final_generation').innerHTML =
+          "Size of final generation: " + statistics.finalGeneration;
 
           if (statistics.finalGeneration !== undefined) {
-            document.getElementById('lbl_gol_final_generation').innerHTML =
-            "Size of final generation: " + statistics.finalGeneration;
-
-            result = statistics.finalGeneration > 0 ? "population became stable" : "population died out";
+            var result = statistics.finalGeneration > 0 ? "population became stable" : "population died out";
             document.getElementById('lbl_gol_result').innerHTML =
             "Result: " + result;
 
-            var vitality = Math.round(statistics.finalGeneration / statistics.initialGeneration * 10000) / 100;
-            document.getElementById('lbl_gol_population_vitality').innerHTML =
-            "Population vitality: " + vitality + " %";
+            if (statistics.initialGeneration > 0) {
+              var vitality = Math.round(statistics.finalGeneration / statistics.initialGeneration * 10000) / 100;
+              document.getElementById('lbl_gol_population_vitality').innerHTML =
+              "Population vitality: " + vitality + " %";
+            }
+            else {
+              document.getElementById('lbl_gol_population_vitality').innerHTML =
+              "Population vitality: undefined";
+            }
           }
           else {
-            document.getElementById('lbl_gol_final_generation').innerHTML =
-            "Size of final generation: unknown";
-
-            result = statistics.finalGeneration > 0 ? "population became stable" : "population died out";
             document.getElementById('lbl_gol_result').innerHTML =
-            "Result: unknown";
+            "Result: undefined";
 
             document.getElementById('lbl_gol_population_vitality').innerHTML =
-            "Population vitality: unknown";
+            "Population vitality: undefined";
           }
         }
 
@@ -179,19 +181,19 @@
             <td colspan="3" class="statistics">STATISTICS</td>
           </tr>
           <tr>
-            <td colspan="3" class="statistics" id="lbl_gol_result">Result: unknown</td>
+            <td colspan="3" class="statistics" id="lbl_gol_result">Result: undefined</td>
           </tr>
           <tr>
-            <td colspan="3" class="statistics" id="lbl_gol_population_vitality">Population vitality: unknown</td>
+            <td colspan="3" class="statistics" id="lbl_gol_population_vitality">Population vitality: undefined</td>
           </tr>
           <tr>
-            <td colspan="3" class="statistics" id="lbl_gol_number_of_generations">Number of generations: unknown</td>
+            <td colspan="3" class="statistics" id="lbl_gol_number_of_generations">Number of generations: undefined</td>
           </tr>
           <tr>
-            <td colspan="3" class="statistics" id="lbl_gol_initial_generation">Size of initial generation: unknown</td>
+            <td colspan="3" class="statistics" id="lbl_gol_initial_generation">Size of initial generation: undefined</td>
           </tr>
           <tr>
-            <td colspan="3" class="statistics" id="lbl_gol_final_generation">Size of final generation: unknown</td>
+            <td colspan="3" class="statistics" id="lbl_gol_final_generation">Size of final generation: undefined</td>
           </tr>
         </table>
       </td>
