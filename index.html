@@ -107,7 +107,7 @@
         }
 
         function getCanvasSize() {
-          var size = window.innerHeight < window.innerWidth - 300 ? window.innerHeight : window.innerWidth - 300;
+          var size = window.innerHeight < window.innerWidth - document.getElementById('controls').clientWidth ? window.innerHeight : window.innerWidth - document.getElementById('controls').clientWidth;
           var normalizedSize = Math.round(size * 0.9 / 10) * 10;
           return {width: normalizedSize, height: normalizedSize};
         }
@@ -115,6 +115,13 @@
         window.onresize = function(e) {
           game.resizeCanvas(getCanvasSize());
         };
+
+      function updateGlobalMessage(text) {
+        var gm = document.getElementById("global_message");
+        gm.style.top = 0;
+        gm.style.left = document.getElementById('controls').clientWidth + 20 + "px";
+        gm.innerHTML = text;
+      }
       </script>
 
       <script type="text/javascript" src="MatrixPainter.js"></script>
@@ -130,32 +137,32 @@
           <tr>
             <td>
               <input type=radio name=game_selector id=radio_gol checked onchange="chooseGame();">
-              <label for=radio_gol>Game of life</label>
+              <label for=radio_gol class="noselect">Game of life</label>
             </td>
           </tr>
           <tr>
             <td>
               <input type=radio name=game_selector id=radio_snake onchange="chooseGame();">
-              <label for=radio_snake>Snake</label>
+              <label for=radio_snake class="noselect">Snake</label>
             </td>
           </tr>
         </table>
         <table class=general_controls>
           <tr>
-            <td><button type="button" onclick="game.start();" id="btn_start">Start</button></td>
-            <td><button type="button" onclick="game.pause();" id="btn_pause">Pause</button></td>
-            <td><button type="button" onclick="game.reset();" id="btn_reset">Reset</button></td>
+            <td><button type="button" onclick="game.start();" id="btn_start" class="noselect">Start</button></td>
+            <td><button type="button" onclick="game.pause();" id="btn_pause" class="noselect">Pause</button></td>
+            <td><button type="button" onclick="game.reset();" id="btn_reset" class="noselect">Reset</button></td>
           </tr>
           <tr>
             <td>
               Field size
             </td>
             <td>
-              <input type="range" min="5" max="200" step="1" value="20" id="field_size" oninput="updateFieldSize();">
+              <input type="range" min="5" max="200" step="1" value="20" id="field_size" onmouseout="updateGlobalMessage('');" onmouseenter="updateGlobalMessage('Field size:<br/>' + this.value + 'x' + this.value);" oninput="updateFieldSize();onmouseenter();">
             </td>
             <td>
               <input type=checkbox name=display_grid id=chbx_display_grid checked onchange="game.draw();">
-              <label for=chbx_display_grid>#</label>
+              <label for=chbx_display_grid class="noselect" title="Show/hide grid">#</label>
             </td>
           </tr>
         </table>
@@ -172,7 +179,7 @@
               Probability
             </td>
             <td colspan="2">
-              <input type="range" min="0.05" max="1" step="0.05" value="0.5" id="range_gol_probability">
+              <input type="range" min="0.05" max="1" step="0.01" value="0.5" id="range_gol_probability" onmouseout="updateGlobalMessage('');" onmouseenter="updateGlobalMessage('Probability<br/>of cell<br/>activation:<br/>' + Math.round(this.value * 100) + '%');" oninput=onmouseenter();>
             </td>
           </tr>
           <tr>
@@ -180,7 +187,7 @@
               Speed
             </td>
             <td colspan="2">
-              <input type="range" min="1" max="200" step="1" value="100" id="range_gol_speed" oninput="game.setSpeed();">
+              <input type="range" min="1" max="200" step="1" value="100" id="range_gol_speed" onmouseout="updateGlobalMessage('');" onmouseenter="updateGlobalMessage('Speed:<br>1 iteration<br>in ' + Math.round(2000 / this.value) + ' ms');" oninput="game.setSpeed();onmouseenter();">
             </td>
           </tr>
           <tr>
@@ -204,9 +211,11 @@
         </table>
       </td>
       <td id="game_field">
-        <canvas id="canvas" onclick="handleClick(event);" onselectstart="return false" onmousedown="return false"></canvas>
+        <canvas id="canvas" onclick="handleClick(event);" class=noselect></canvas>
       </td>
     </tr>
   </table>
+  <div id=global_message class=noselect>
+  </div>
 </body>
 </html>

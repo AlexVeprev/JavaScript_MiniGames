@@ -3,7 +3,7 @@ body {
 }
 
 canvas {
-  background-color: #fff;
+  background-color: #f4ece8;
 }
 
 label {
@@ -25,7 +25,7 @@ input[type=checkbox] {
 input[type=radio]:checked + label,
 input[type=checkbox]:checked + label,
 button:active {
-  background-color: #69564b;
+  background-color: #6f4c38;
 }
 
 input[type=range] {
@@ -36,13 +36,15 @@ button {
   border-radius: 5px;
   display: block;
   width:100%;
-  color: #403026;
-  background-color: #ffe3d1;
+  color: #2b1e16;
+  background-color: #ebded7;
   border: 0;
   padding: 5px;
   cursor: pointer;
   text-align: center;
+}
 
+.noselect {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
   -khtml-user-select: none;    /* Konqueror */
@@ -64,8 +66,8 @@ button {
 #controls {
   vertical-align: top;
   padding: 5px;
-  background-color: #403026;
-  color: #ffe3d1;
+  background-color: #2b1e16;
+  color: #ebded7;
   width: 300px;
   height: 100%;
 }
@@ -87,7 +89,14 @@ button {
 }
 
 #game_field {
-  background-color: #ffe3d1;
+  background-color: #ebded7;
   text-align: center;
   height: 100%
+}
+
+#global_message {
+  color: green;
+  position: absolute;
+  font: bold italic 96pt Arial;
+  opacity: 0.5;
 }
