@@ -114,21 +114,21 @@
   <table id="content">
     <tr>
       <td id="controls">
-        <table id="general_controls">
-          <caption>General controls</caption>
+        <table id=game_selector>
           <tr>
-            <td colspan="3">
+            <td>
               <input type=radio name=game_selector id=radio_gol checked onchange="chooseGame();">
               <label for=radio_gol>Game of life</label>
-              </td>
+            </td>
           </tr>
           <tr>
-            <td colspan="3">
+            <td>
               <input type=radio name=game_selector id=radio_snake onchange="chooseGame();">
               <label for=radio_snake>Snake</label>
-              </td>
-              </td>
+            </td>
           </tr>
+        </table>
+        <table id="general_controls">
           <tr>
             <td><button type="button" onclick="game.start();" id="btn_start">Start</button></td>
             <td><button type="button" onclick="game.pause();" id="btn_pause">Pause</button></td>
@@ -138,18 +138,16 @@
             <td>
               Field size
             </td>
-            <td colspan="2">
+            <td>
               <input type="range" min="5" max="200" step="1" value="20" id="field_size" oninput="updateFieldSize();">
             </td>
-          </tr>
-          <tr>
-            <td colspan="3">
-              <label>Display grid<input type=checkbox name=display_grid id=chbx_display_grid checked onchange="game.draw();"></label>
+            <td>
+              <input type=checkbox name=display_grid id=chbx_display_grid checked onchange="game.draw();">
+              <label for=chbx_display_grid>#</label>
             </td>
           </tr>
         </table>
-        <table id="game_of_life_controls">
-          <caption>Game of Life</caption>
+        <table id="gol_controls">
           <tr>
             <td><button type="button" onclick="game.step();" id="btn_step">Step</button></td>
             <td><button type="button" onclick="game.random(parseFloat(document.getElementById('range_gol_probability').value));" id="btn_populate">Populate</button></td>
@@ -174,7 +172,7 @@
             </td>
           </tr>
           <tr>
-            <td colspan="3">STATISTICS</td>
+            <td colspan="3" class="statistics">STATISTICS</td>
           </tr>
           <tr>
             <td colspan="3" class="statistics" id="lbl_gol_result">Result: unknown</td>
