@@ -118,9 +118,9 @@
         <table id="general_controls">
           <caption>General controls</caption>
           <tr>
-            <td><div class="button" onclick="game.start();" id="btn_start" >Start</div></td>
-            <td><div class="button" onclick="game.pause();"  >Pause</div></td>
-            <td><div class="button" onclick="game.reset();" >Reset</div></td>
+            <td><button type="button" onclick="game.start();" id="btn_start">Start</button></td>
+            <td><button type="button" onclick="game.pause();" id="btn_pause">Pause</button></td>
+            <td><button type="button" onclick="game.reset();" id="btn_reset">Reset</button></td>
           </tr>
           <tr>
             <td>
@@ -142,14 +142,8 @@
         <table id="game_of_life_controls">
           <caption>Game of Life</caption>
           <tr>
-            <td>
-              <div class="button" onclick="game.step();">
-                Step
-              </div>
-            </td>
-            <td>
-              <div class="button" onclick="game.random(parseFloat(document.getElementById('range_gol_probability').value));">Populate</div>
-            </td>
+            <td><button type="button" onclick="game.step();" id="btn_step">Step</button></td>
+            <td><button type="button" onclick="game.random(parseFloat(document.getElementById('range_gol_probability').value));" id="btn_populate">Populate</button></td>
             <td>
               
             </td>
