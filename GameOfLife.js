@@ -125,7 +125,6 @@
 
     function gameOver() {
       self.stop();
-      callback.gameover();
 
       if (self.previousGeneration && areMatrixesEqual(newGeneration, self.previousGeneration)) {
         self.counter.numberOfGenerations++;
