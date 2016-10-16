@@ -31,12 +31,13 @@ button:active {
 
 input[type=range] {
   width: 95%;
+  display: block;
 }
 
 button {
   border-radius: 5px;
   display: block;
-  width:100%;
+  width: 100%;
   color: #2b1e16;
   background-color: #ebded7;
   border: 0;
@@ -51,8 +52,7 @@ button {
   -khtml-user-select: none;    /* Konqueror */
   -moz-user-select: none;      /* Firefox */
   -ms-user-select: none;       /* Internet Explorer/Edge */
-  user-select: none;           /* Non-prefixed version, currently
-                                  not supported by any browser */
+  user-select: none;           /* Non-prefixed version, currently not supported by any browser */
 }
 
 #content {

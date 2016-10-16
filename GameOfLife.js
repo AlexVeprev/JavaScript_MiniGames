@@ -87,7 +87,7 @@
     var timer = null;
     var speed;
     self.setSpeed = function() {
-      speed = 2000 / speedRange.value;
+      speed = 2000 - speedRange.value;
       if (timer) {
         self.stop();
         self.start();
