@@ -14,6 +14,10 @@
                            height: parseInt(document.getElementById('field_size').value)};
           canvas = document.getElementById("canvas");
 
+          if (game) {
+            game.reset();
+          }
+
           if (document.getElementById('radio_gol').checked) {
             game = new GameOfLife(fieldSize,
                                   canvas,
