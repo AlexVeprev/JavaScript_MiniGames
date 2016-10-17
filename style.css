@@ -96,8 +96,8 @@ button {
 }
 
 #global_message {
-  color: green;
+  color: #070;
   position: absolute;
-  font: bold italic 96pt Arial;
+  font: bold 24pt Arial;
   opacity: 0.5;
 }
