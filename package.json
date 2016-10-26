@@ -1,0 +1,28 @@
+{
+  "name": "js-mini-games",
+  "version": "1.0.0",
+  "main": "index.html",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test/test.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexVeprev/JavaScript_MiniGames.git"
+  },
+  "author": "Alexey Veprev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexVeprev/JavaScript_MiniGames/issues"
+  },
+  "homepage": "https://github.com/AlexVeprev/JavaScript_MiniGames#readme",
+  "description": "",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}
