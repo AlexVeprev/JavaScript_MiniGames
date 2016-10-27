@@ -1,13 +1,13 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     jshint: {
-      all: ['js/*.js']
+      all: ['src/js/*.js']
     },
     uglify: {
       build: {
         files: [{
             expand: true,
-            src: ['js/*.js'],
+            src: ['src/js/*.js'],
             dest: 'build/'
         }]
       }
@@ -16,7 +16,7 @@ module.exports = function(grunt) {
       build: {
         files: [{
             expand: true,
-            src: ['*.html', '*.css'],
+            src: ['src/*.html', 'src/styles/*.css'],
             dest: 'build/'
         }]
       }
