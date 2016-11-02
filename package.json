@@ -1,30 +1,35 @@
 {
-  "name": "js-mini-games",
+  "name": "av-mini-games",
   "version": "1.0.0",
   "main": "index.html",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "test/test.html"
+    "test": "test/test.html",
+    "mkdirs_build": "mkdirp build/js build/styles",
+    "deploy_js": "uglifyjs src/js/*.js -o build/js/av-mini-games.js",
+    "deploy_css": "copyfiles -up 2 src/styles/*.css build/styles",
+    "deploy_html": "copyup src/*.html build/",
+    "deploy": "npm run mkdirs_build && npm run deploy_js & npm run deploy_html & npm run deploy_css",
+    "clean": "bash -c 'rm -rf ./build'",
+    "lint": "bash -c 'jshint src/js/*.js'"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AlexVeprev/JavaScript_MiniGames.git"
   },
   "author": "Alexey Veprev",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/AlexVeprev/JavaScript_MiniGames/issues"
   },
   "homepage": "https://github.com/AlexVeprev/JavaScript_MiniGames#readme",
-  "description": "",
+  "description": "Some mini-games to learn about JS.",
   "devDependencies": {
-    "grunt": "^1.0.1",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-uglify": "^2.0.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-strip-code": "^1.0.4"
+    "copyfiles": "^1.0.0",
+    "jshint": "^2.9.4",
+    "mkdirp": "^0.5.1",
+    "uglify-js": "^2.7.4"
   }
 }
