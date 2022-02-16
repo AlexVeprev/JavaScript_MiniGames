@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AV: JavaScript MiniGames</title>
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+
+      <script type="text/javascript">
+        "use strict";
+        var game = null;
+        var canvas = null;
+
+        function chooseGame() {
+          var fieldSize = {width:  parseInt(document.getElementById('field_size').value),
+                           height: parseInt(document.getElementById('field_size').value)};
+          canvas = document.getElementById("canvas");
+
+          if (game) {
+            game.reset();
+          }
+
+          var specialControls = document.getElementsByClassName("special_controls");
+          for (var i = 0; i < specialControls.length; i++) {
+            specialControls[i].style.display = "none";
+          }
+
+          if (document.getElementById('radio_gol').checked) {
+            document.getElementById("gol_controls").style.display = "block";
+            game = new GameOfLife(fieldSize,
+                                  canvas,
+                                  getCanvasSize(),
+                                  document.getElementById('chbx_display_grid'),
+                                  document.getElementById('range_gol_speed'));
+            game.registerCallback("statistics", GameOfLife_statistics);
+          }
+          else if (document.getElementById('radio_snake').checked) {
+            game = new Snake(fieldSize, canvas, getCanvasSize(), document.getElementById('chbx_display_grid'));
+          }
+        }
+
+        function GameOfLife_statistics(statistics) {
+          document.getElementById('lbl_gol_number_of_generations').innerHTML =
+          "Number of generations: " + statistics.numberOfGenerations;
+
+          document.getElementById('lbl_gol_initial_generation').innerHTML =
+          "Size of initial generation: " + statistics.initialGeneration;
+
+          document.getElementById('lbl_gol_final_generation').innerHTML =
+          "Size of final generation: " + statistics.finalGeneration;
+
+          if (statistics.finalGeneration !== undefined) {
+            var result = statistics.finalGeneration > 0 ? "population became stable" : "population died out";
+            document.getElementById('lbl_gol_result').innerHTML =
+            "Result: " + result;
+
+            if (statistics.initialGeneration > 0) {
+              var vitality = Math.round(statistics.finalGeneration / statistics.initialGeneration * 10000) / 100;
+              document.getElementById('lbl_gol_population_vitality').innerHTML =
+              "Population vitality: " + vitality + " %";
+            }
+            else {
+              document.getElementById('lbl_gol_population_vitality').innerHTML =
+              "Population vitality: undefined";
+            }
+          }
+          else {
+            document.getElementById('lbl_gol_result').innerHTML =
+            "Result: undefined";
+
+            document.getElementById('lbl_gol_population_vitality').innerHTML =
+            "Population vitality: undefined";
+          }
+        }
+
+        function relMouseCoords(event) {
+          var totalOffsetX = 0;
+          var totalOffsetY = 0;
+          var canvasX = 0;
+          var canvasY = 0;
+          var currentElement = this;
+
+          do {
+            totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
+            totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+          }
+          while (currentElement = currentElement.offsetParent)
+
+          canvasX = event.pageX - totalOffsetX;
+          canvasY = event.pageY - totalOffsetY;
+
+          return {x:canvasX, y:canvasY}
+        }
+        HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;
+
+        function handleClick(e) {
+          var coords = canvas.relMouseCoords(e);
+          game.handleClick(coords.x, coords.y);
+        }
+
+        window.onkeydown = function(e) {
+          e = e || event;
+          game.handleKeyDown(e.keyCode);
+        };
+
+        function updateFieldSize() {
+          game.reset();
+          chooseGame();
+        }
+
+        function getCanvasSize() {
+          var size = window.innerHeight < window.innerWidth - document.getElementById('controls').clientWidth ? window.innerHeight : window.innerWidth - document.getElementById('controls').clientWidth;
+          var normalizedSize = Math.round(size * 0.9 / 10) * 10;
+          return {width: normalizedSize, height: normalizedSize};
+        }
+        
+        window.onresize = function(e) {
+          game.resizeCanvas(getCanvasSize());
+        };
+
+      function updateGlobalMessage(text) {
+        var gm = document.getElementById("global_message");
+        gm.style.top = "5px";
+        gm.style.left = document.getElementById('canvas').getBoundingClientRect().left + "px";
+        gm.innerHTML = text;
+      }
+      </script>
+
+      <script type="text/javascript" src="js/av-mini-games.js"></script>
+  </head>
+
+<body onload=chooseGame();>
+  <table id="content">
+    <tr>
+      <td id="controls">
+        <table id=game_selector>
+          <tr>
+            <td>
+              <input type=radio name=game_selector id=radio_gol checked onchange="chooseGame();">
+              <label for=radio_gol class="noselect">Game of life</label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type=radio name=game_selector id=radio_snake onchange="chooseGame();">
+              <label for=radio_snake class="noselect">Snake</label>
+            </td>
+          </tr>
+        </table>
+        <table class=general_controls>
+          <tr>
+            <td><button type="button" onclick="game.start();" id="btn_start" class="noselect">Start</button></td>
+            <td><button type="button" onclick="game.pause();" id="btn_pause" class="noselect">Pause</button></td>
+            <td><button type="button" onclick="game.reset();" id="btn_reset" class="noselect">Reset</button></td>
+          </tr>
+          <tr>
+            <td>
+              Field size
+            </td>
+            <td>
+              <input type="range" min="5" max="200" step="1" value="20" id="field_size" onmouseout="updateGlobalMessage('');" onmouseenter="updateGlobalMessage('Field size: ' + this.value + 'x' + this.value);" oninput="updateFieldSize();onmouseenter();">
+            </td>
+            <td>
+              <input type=checkbox name=display_grid id=chbx_display_grid checked onchange="game.draw();">
+              <label for=chbx_display_grid class="noselect" title="Show/hide grid">#</label>
+            </td>
+          </tr>
+        </table>
+        <table id=gol_controls class=special_controls>
+          <tr>
+            <td><button type="button" onclick="game.step();" id="btn_step">Step</button></td>
+            <td><button type="button" onclick="game.random(parseFloat(document.getElementById('range_gol_probability').value));" id="btn_populate">Populate</button></td>
+            <td>
+              
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Probability
+            </td>
+            <td colspan="2">
+              <input type="range" min="0.01" max="1" step="0.01" value="0.5" id="range_gol_probability" onmouseout="updateGlobalMessage('');" onmouseenter="updateGlobalMessage('Probability of cell activation: ' + Math.round(this.value * 100) + '%');" oninput=onmouseenter();>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Speed
+            </td>
+            <td colspan="2">
+              <input type="range" min="0" max="1999" step="1" value="1000" id="range_gol_speed" onmouseout="updateGlobalMessage('');" onmouseenter="updateGlobalMessage('Speed: 1 iteration in ' + (2000 - this.value) + ' ms');" oninput="game.setSpeed();onmouseenter();">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" class="statistics">STATISTICS</td>
+          </tr>
+          <tr>
+            <td colspan="3" class="statistics" id="lbl_gol_result">Result: undefined</td>
+          </tr>
+          <tr>
+            <td colspan="3" class="statistics" id="lbl_gol_population_vitality">Population vitality: undefined</td>
+          </tr>
+          <tr>
+            <td colspan="3" class="statistics" id="lbl_gol_number_of_generations">Number of generations: undefined</td>
+          </tr>
+          <tr>
+            <td colspan="3" class="statistics" id="lbl_gol_initial_generation">Size of initial generation: undefined</td>
+          </tr>
+          <tr>
+            <td colspan="3" class="statistics" id="lbl_gol_final_generation">Size of final generation: undefined</td>
+          </tr>
+        </table>
+      </td>
+      <td id="game_field">
+        <canvas id="canvas" onclick="handleClick(event);" class=noselect></canvas>
+      </td>
+    </tr>
+  </table>
+  <div id=global_message class=noselect>
+  </div>
+</body>
+</html>
