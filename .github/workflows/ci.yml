@@ -3,7 +3,7 @@ name: CI
 on:
   push:
   #  branches: [ master ]
-  pull_request:
+  #pull_request:
   #  branches: [ master ]
 
 jobs:
@@ -36,6 +36,7 @@ jobs:
           name: build
       - name: Publish to github pages
         run: |
+          ls -la
           cd gh-pages
           rm -rf * .github
           mv ../build/* .
